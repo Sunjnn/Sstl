@@ -1,5 +1,5 @@
-#ifndef DEFALLOC_H
-#define DEFALLOC_H
+#ifndef __DEFALLOC_H__
+#define __DEFALLOC_H__
 
 // #include <new.h>
 #include <stddef.h>

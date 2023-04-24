@@ -1,6 +1,8 @@
 #ifndef __STL_CONSTRUCT__H__
 #define __STL_CONSTRUCT__H__
 
+#include "type_traits.h"
+
 namespace Sstl {
 
 template<class T1, class T2>

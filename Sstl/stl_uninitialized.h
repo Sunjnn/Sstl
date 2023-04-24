@@ -2,6 +2,7 @@
 #define __STL__UNINITIALIZED_H__
 
 #include "stl_construct.h"
+#include "type_traits.h"
 #include <string.h>
 
 namespace Sstl

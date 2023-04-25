@@ -32,6 +32,8 @@ protected:
     }
 
     void fill_initialize(size_type n, const T &value) {
+        // todo: second version allocation return a larger space,
+        // but this routine does not use it
         start = allocate_and_fill(n, value);
         finish = start + n;
         end_of_storage = finish;

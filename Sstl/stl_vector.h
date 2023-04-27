@@ -3,6 +3,7 @@
 
 #include "stl_alloc.h"
 #include "stl_uninitialized.h"
+#include "max.h"
 #include <cstddef>
 
 namespace Sstl {

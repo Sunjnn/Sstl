@@ -104,7 +104,7 @@ inline wchar_t *uninitialized_copy(const wchar_t *first, const wchar_t *last, wc
 }
 
 // inplementation of uninitialized_fill
-namespace {
+namespace Sstl {
 
 // POD class
 template<class ForwardIterator, class T>

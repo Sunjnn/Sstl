@@ -41,8 +41,8 @@ protected:
     }
 
 public:
-    iterator begin() {return start}
-    iterator end() {return finish}
+    iterator begin() {return start;}
+    iterator end() {return finish;}
     size_type size() const {return size_type(finish - start);}
     size_type capacity() const {return size_type(end_of_storage - start);}
     bool empty() const {return start == finish;}

@@ -25,7 +25,6 @@ protected:
     iterator finish;
     iterator end_of_storage;
 
-    void insert(iterator position, size_type n, const T &x);
     void insert_aux(iterator position, const T &x);
     void deallocate() {
         if (start)
@@ -61,6 +60,8 @@ public:
 
     reference front() {return *start;}
     reference back() {return *(finish - 1);}
+
+    void insert(iterator position, size_type n, const T &x);
 
     void push_back(const T &x) {
         if (finish != end_of_storage) {

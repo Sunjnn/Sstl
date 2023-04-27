@@ -179,19 +179,17 @@ void vector<T, Alloc>::insert(iterator position, size_type n, const T &x) {
 
             iterator new_start = data_allocator::allocate(len);
             iterator new_finish = new_start;
-            __STL_TRY {
+            try {
                 new_finish = uninitialized_copy(start, position, new_start);
                 new_finish = uninitialized_fill_n(new_finish, n, x);
                 new_finish = uninitialized_copy(position, finish, new_finish);
             }
-#ifdef __STL_USE_EXCEPTIONS
             catch(...) {
                 // commit or rollback
                 destroy(new_start, new_finish);
                 data_allocator::deallocate(new_start, len);
                 throw;
             }
-#endif
             destroy(start, finish);
             deallocate();
             start = new_start;

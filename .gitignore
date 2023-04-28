@@ -1,7 +1,7 @@
 .vscode/
+
 build/*
 !build/readme
 
 main
 main.cpp
-Makefile

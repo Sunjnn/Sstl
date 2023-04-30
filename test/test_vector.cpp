@@ -51,9 +51,7 @@ int main() {
     // operator []
     cout << "\n********************" << endl;
     cout << "test operator []" << endl;
-    for (int i = 0; i < nums3.size(); ++i) {
-        cout << "nums3[" << i << "] = " << nums3[i] << endl;
-    }
+    cout << nums3 << endl;
 
     // iterator
     cout << "\n********************" << endl;
@@ -61,75 +59,49 @@ int main() {
     int i = 0;
     for (auto it = nums3.begin(); it < nums3.end(); ++it) {
         *it = i++;
-        cout << *it << endl;
     }
+    cout << nums3 << endl;
 
     // front() and back()
     cout << "\n********************" << endl;
     cout << "test front() and back()" << endl;
     nums3.front() = 10;
-    cout << "nums3.front() = " << nums3.front() << endl;
     nums3.back() = 10;
-    cout << "nums3.back() = " << nums3.back() << endl;
+    cout << nums3 << endl;
 
     // insert()
     cout << "\n********************" << endl;
     cout << "test insert()" << endl;
-    for (int i = 0; i < nums3.size(); ++i) {
-        cout << nums3[i] << " ";
-    }
-    cout << endl;
-
     auto it = nums3.begin();
     nums3.insert(it, 3, 3);
-
-    for (int i = 0; i < nums3.size(); ++i) {
-        cout << nums3[i] << " ";
-    }
-    cout << endl;
+    cout << nums3 << endl;
 
     // push_back() and pop_back()
     cout << "\n********************" << endl;
     cout << "test push_back()" << endl;
-
     nums3.push_back(0);
-    for (int i = 0; i < nums3.size(); ++i) {
-        cout << nums3[i] << " ";
-    }
-    cout << endl;
+    cout << nums3 << endl;
 
     nums3.pop_back();
-    for (int i = 0; i < nums3.size(); ++i) {
-        cout << nums3[i] << " ";
-    }
-    cout << endl;
+    cout << nums3 << endl;
 
     // erase()
     cout << "\n********************" << endl;
     cout << "test erase()" << endl;
     it = nums3.begin();
     nums3.erase(it);
-    for (int i = 0; i < nums3.size(); ++i) {
-        cout << nums3[i] << " ";
-    }
-    cout << endl;
+    cout << nums3 << endl;
 
     it = nums3.begin();
     auto it1 = it + 3;
     nums3.erase(it, it1);
-    for (int i = 0; i < nums3.size(); ++i) {
-        cout << nums3[i] << " ";
-    }
-    cout << endl;
+    cout << nums3 << endl;
 
     // clear()
     cout << "\n********************" << endl;
     cout << "test clear()" << endl;
     nums3.clear();
-    for (int i = 0; i < nums3.size(); ++i) {
-        cout << nums3[i] << " ";
-    }
-    cout << endl;
+    cout << nums3 << endl;
 
     return 0;
 }

@@ -60,9 +60,13 @@ public:
     vector(int n, const T &value) {fill_initialize(n, value);}
     vector(long n, const T &value) {fill_initialize(n, value);}
     vector(std::initializer_list<T> il) : vector(il.size(), T()) {
-        size_type n = il.size();
-        for (size_type i = 0; i < n; ++i) {
-            start[i] = il[i];
+        iterator it = start;
+        typename std::initializer_list<T>::iterator it_il = il.begin();
+        typename std::initializer_list<T>::iterator it_il_end = il.end();
+        while (it_il != it_il_end) {
+            *it = *it_il;
+            ++it;
+            ++it_il;
         }
     }
     explicit vector(size_type n) {fill_initialize(n, T());}

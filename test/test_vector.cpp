@@ -1,4 +1,7 @@
+// my implementation
 #include "stl_vector.h"
+
+// gcc implementation
 #include <iostream>
 
 using std::cout, std::endl;
@@ -30,10 +33,20 @@ int main() {
     cout << "nums3 capacity is " << nums3.capacity() << endl;
     cout << "nums3 is empty? " << (nums3.empty() ? "true" : "false") << endl;
 
+    // constructor of initializer list
+    cout << "\n********************" << endl;
+    cout << "test construct of initializer list" << endl;
+    Sstl::vector<int> nums4({0, 1, 2, 3, 4});
+    cout << "nums4 size is " << nums4.size() << endl;
+    cout << "nums4 capacity is " << nums4.capacity() << endl;
+    cout << "nums4 is empty? " << (nums4.empty() ? "true" : "false") << endl;
+    cout << nums4 << endl;
+
     // deconstructor
     nums0.~vector();
     nums1.~vector();
     nums2.~vector();
+    nums4.~vector();
 
     // operator []
     cout << "\n********************" << endl;

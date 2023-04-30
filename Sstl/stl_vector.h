@@ -218,7 +218,7 @@ void vector<T, Alloc>::insert(iterator position, size_type n, const T &x) {
 
 template<class T, class Alloc>
 std::ostream &operator<<(std::ostream &ostream, vector<T, Alloc> _vector) {
-    vector<T, Alloc>::size_type n = _vector.size();
+    typename vector<T, Alloc>::size_type n = _vector.size();
     if (n == 0) return ostream;
 
     for (decltype(n) i = 0; i < n - 1; ++i) {
@@ -230,7 +230,7 @@ std::ostream &operator<<(std::ostream &ostream, vector<T, Alloc> _vector) {
 
 template<class Alloc>
 std::ostream &operator<<(std::ostream &ostream, vector<int, Alloc> _vector) {
-    vector<T, Alloc>::size_type n = _vector.size();
+    typename vector<int, Alloc>::size_type n = _vector.size();
     if (n == 0) return ostream;
 
     for (decltype(n) i = 0; i < n - 1; ++i) {

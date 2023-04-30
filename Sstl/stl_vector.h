@@ -1,9 +1,15 @@
 #ifndef __STL_VECTOR_H__
 #define __STL_VECTOR_H__
 
+// my implementation
+// <> is default, but I will implement
 #include "stl_alloc.h"
 #include "stl_uninitialized.h"
 #include "max.h"
+// todo: implement a intializer_list head file
+#include <initializer_list>
+
+// gcc implementation
 #include <cstddef>
 
 namespace Sstl {
@@ -52,6 +58,12 @@ public:
     vector(size_type n, const T &value) {fill_initialize(n, value);}
     vector(int n, const T &value) {fill_initialize(n, value);}
     vector(long n, const T &value) {fill_initialize(n, value);}
+    vector(std::initializer_list<T> il) : vector(il.size(), T()) {
+        size_type n = il.size();
+        for (size_type i = 0; i < n; ++i) {
+            start[i] = il[i];
+        }
+    }
     explicit vector(size_type n) {fill_initialize(n, T());}
 
     ~vector() {

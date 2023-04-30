@@ -11,6 +11,7 @@
 
 // gcc implementation
 #include <cstddef>
+#include <iostream>
 
 namespace Sstl {
 
@@ -210,6 +211,30 @@ void vector<T, Alloc>::insert(iterator position, size_type n, const T &x) {
         }
     }
 }
+
+template<class T, class Alloc>
+std::ostream &operator<<(std::ostream &ostream, vector<T, Alloc> _vector) {
+    vector<T, Alloc>::size_type n = _vector.size();
+    if (n == 0) return ostream;
+
+    for (decltype(n) i = 0; i < n - 1; ++i) {
+        ostream << _vector[i] << "\n";
+    }
+    ostream << _vector[n - 1];
+    return ostream;
+} // std::ostream &operator<<(std::ostream&, vector<T, Alloc>)
+
+template<class Alloc>
+std::ostream &operator<<(std::ostream &ostream, vector<int, Alloc> _vector) {
+    vector<T, Alloc>::size_type n = _vector.size();
+    if (n == 0) return ostream;
+
+    for (decltype(n) i = 0; i < n - 1; ++i) {
+        ostream << _vector[i] << " ";
+    }
+    ostream << _vector[n - 1];
+    return ostream;
+} // std::ostream &operator<<(std::ostream&, vector<int, Alloc>)
 
 }
 

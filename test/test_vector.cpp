@@ -97,6 +97,11 @@ int main() {
     nums3.erase(it, it1);
     cout << nums3 << endl;
 
+    cout << "\n********************" << endl;
+    cout << "test resize" << endl;
+    nums3.resize(20);
+    cout << nums3 << endl;
+
     // clear()
     cout << "\n********************" << endl;
     cout << "test clear()" << endl;

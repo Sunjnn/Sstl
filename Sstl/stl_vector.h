@@ -48,12 +48,12 @@ protected:
     }
 
 public:
-    iterator begin() {return start;}
-    iterator end() {return finish;}
+    iterator begin() const {return start;}
+    iterator end() const {return finish;}
     size_type size() const {return size_type(finish - start);}
     size_type capacity() const {return size_type(end_of_storage - start);}
     bool empty() const {return start == finish;}
-    reference operator[](size_type n) {return *(start + n);}
+    reference operator[](size_type n) const {return *(start + n);}
 
     vector() : start(0), finish(0), end_of_storage(0) {}
     vector(size_type n, const T &value) {fill_initialize(n, value);}
@@ -76,8 +76,8 @@ public:
         deallocate();
     }
 
-    reference front() {return *start;}
-    reference back() {return *(finish - 1);}
+    reference front() const {return *start;}
+    reference back() const {return *(finish - 1);}
 
     void insert(iterator position, size_type n, const T &x);
 

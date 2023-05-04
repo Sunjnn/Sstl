@@ -5,3 +5,6 @@ export CC ROOT_DIR BUILD_DIR
 
 test_vector: test/test_vector.cpp Sstl/*
 	make -e -C test test_vector
+
+test_list: test/test_list.cpp Sstl/*
+	make -e -C test test_list

@@ -51,6 +51,7 @@ int main() {
     // operator []
     cout << "\n********************" << endl;
     cout << "test operator []" << endl;
+    for (int i = 0; i < nums3.size(); ++i) nums3[i] = 10;
     cout << nums3 << endl;
 
     // iterator

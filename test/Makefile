@@ -1,7 +1,8 @@
 CC = g++
 ROOT_DIR = $(shell realpath ..)
 BUILD_DIR = $(ROOT_DIR)/build
-CFLAGS = -I $(ROOT_DIR)/Sstl
+SSTL_DIR = $(ROOT_DIR)/Sstl
+CFLAGS = -I $(SSTL_DIR)
 
-test_vector: test_vector.cpp ../Sstl/*
+test_vector: test_vector.cpp $(SSTL_DIR)/*
 	$(CC) $(CFLAGS) $< -o $(BUILD_DIR)/$@

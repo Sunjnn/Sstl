@@ -74,11 +74,18 @@ struct __list_iterator {
 template<class T, class Alloc = alloc>
 class list {
 protected:
-    typedef __list_node<T> list_node;
-    typedef simple_alloc<list_node, Alloc> list_node_allocator;
+    typedef __list_node<T>                  list_node;
+    typedef simple_alloc<list_node, Alloc>  list_node_allocator;
 
 public:
-    typedef list_node *link_type;
+    typedef list_node*                  link_type;
+
+    typedef T                           value_type;
+    typedef value_type*                 pointer;
+    typedef __list_iterator<T, T&, T*>  iterator;
+    typedef T&                          reference;
+    typedef size_t                      size_type;
+    typedef ptrdiff_t                   difference_type;
 
 protected:
     link_type node;

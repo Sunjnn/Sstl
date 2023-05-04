@@ -38,10 +38,10 @@ struct __list_iterator {
     __list_iterator(const iterator &x) : node(x.node) {}
 
     bool operator==(const self &x) const {return node == x.node;}
-    bool operator!+(const self &x) const {return node != x.node;}
+    bool operator!=(const self &x) const {return node != x.node;}
 
     // dereference to get node value
-    reference operator*() const {return node->data};
+    reference operator*() const {return node->data;}
 
     pointer operator->() const {return &(operator*());}
 
@@ -129,12 +129,13 @@ protected:
 public:
     list() {empty_initialize();}
 
-    iterator begin() {return (link_type)(node->next);}
-    iterator end() {return node;}
+    iterator begin() const {return (link_type)(node->next);}
+    iterator end() const {return node;}
     bool empty() const {return node->next == node;}
     size_type size() const {
         size_type result = 0;
-        distance(begin(), end(), result);
+        // distance(begin(), end(), result);
+        result = distance(begin(), end());
         return result;
     }
     reference front() {return *begin();}
@@ -219,7 +220,7 @@ public:
     }
 
     // space i at position
-    void splice(iterator positioin, iterator i) {
+    void splice(iterator position, iterator i) {
         iterator j = i;
         ++j;
         if (position == i || position == j) return;

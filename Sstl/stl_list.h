@@ -220,7 +220,7 @@ public:
     }
 
     // space i at position
-    void splice(iterator position, iterator i) {
+    void splice(iterator position, list&, iterator i) {
         iterator j = i;
         ++j;
         if (position == i || position == j) return;
@@ -229,7 +229,7 @@ public:
 
     // space [first, last) at position
     // position cannot be in [first, last)
-    void splice(iterator position, iterator first, iterator last) {
+    void splice(iterator position, list&, iterator first, iterator last) {
         if (first != last) {
             transfer(position, first, last);
         }

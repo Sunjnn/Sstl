@@ -294,6 +294,32 @@ public:
     }
 };
 
+template<class T, class Alloc>
+std::ostream &operator<<(const std::ostream &ostream, const list<T, Alloc> _list) {
+    if (_list.empty()) return ostream;
+
+    list<T, Alloc>::iterator it = _list.begin(), end = _list.end();
+    --end;
+    while (it != end) {
+        ostream << *it << endl;
+        ++it;
+    }
+    ostream << *it;
+} // std::ostream &operator<<(const std::ostream&, const list<T, Alloc>)
+
+template<class Alloc>
+std::ostream &operator<<(const std::ostream &ostream, const list<int, Alloc> _list) {
+    if (_list.empty()) return ostream;
+
+    list<T, Alloc>::iterator it = _list.begin(), end = _list.end();
+    --end;
+    while (it != end) {
+        ostream << *it << " ";
+        ++it;
+    }
+    ostream << *it;
+} // std::ostream &operator<<(const std::ostream&, const list<int, Alloc>)
+
 }
 
 #endif

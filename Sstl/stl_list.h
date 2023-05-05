@@ -311,6 +311,7 @@ std::ostream &operator<<(std::ostream &ostream, const list<T, Alloc> _list) {
         ++it;
     }
     ostream << *it;
+    return ostream;
 } // std::ostream &operator<<(std::ostream&, const list<T, Alloc>)
 
 template<class Alloc>
@@ -324,6 +325,7 @@ std::ostream &operator<<(std::ostream &ostream, const list<int, Alloc> _list) {
         ++it;
     }
     ostream << *it;
+    return ostream;
 } // std::ostream &operator<<(std::ostream&, const list<int, Alloc>)
 
 }

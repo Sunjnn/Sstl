@@ -138,8 +138,8 @@ public:
         result = distance(begin(), end());
         return result;
     }
-    reference front() {return *begin();}
-    reference back() {return *(--end());}
+    reference front() const {return *begin();}
+    reference back() const {return *(--end());}
 
     // insert a node whose value is x at position
     iterator insert(iterator position, const T &x) {

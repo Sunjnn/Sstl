@@ -307,7 +307,7 @@ std::ostream &operator<<(std::ostream &ostream, const list<T, Alloc> _list) {
     typename list<T, Alloc>::iterator it = _list.begin(), end = _list.end();
     --end;
     while (it != end) {
-        ostream << *it << endl;
+        ostream << *it << "\n";
         ++it;
     }
     ostream << *it;

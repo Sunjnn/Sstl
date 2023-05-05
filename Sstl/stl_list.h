@@ -269,6 +269,12 @@ public:
         }
     }
 
+    void swap(list l) {
+        link_type tmp = node;
+        node = l.node;
+        l.node = tmp;
+    }
+
     // list cannot use sort method of algorithm
     void sort() {
         // size is 0 or 1, return

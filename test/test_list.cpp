@@ -1,4 +1,4 @@
-// mu implementation
+// my implementation
 #include "stl_list.h"
 
 // gcc implementation

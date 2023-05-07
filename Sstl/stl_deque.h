@@ -110,7 +110,7 @@ struct __deque_iterator {
         return *this += -n;
     }
     // iterator - n
-    self operator-(difference_type) {
+    self operator-(difference_type n) const {
         self tmp = *this;
         return tmp -= n;
     }

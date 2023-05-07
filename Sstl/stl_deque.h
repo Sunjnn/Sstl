@@ -165,6 +165,10 @@ protected:
     pointer allocate_node() {
         return data_allocator.allocate(buffer_size());
     }
+    //deallocate a node
+    void deallocate_node(pointer node) {
+        data_allocator.deallocate(node);
+    }
 
     void create_map_and_node(size_type num_element);
     void fill_initialize(size_type n, const value_type &value);

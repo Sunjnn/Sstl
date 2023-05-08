@@ -251,7 +251,7 @@ public:
 
     void pop_front_aux();
     // remove an element from the front of deque
-    void pop_back() {
+    void pop_front() {
         if (start.cur != start.last - 1) {
             destroy(start.cur);
             ++start.cur;

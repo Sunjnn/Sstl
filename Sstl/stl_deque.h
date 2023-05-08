@@ -237,6 +237,18 @@ public:
         }
     }
 
+    void pop_back_aux();
+    // remove an element from the back of deque
+    void pop_back() {
+        if (finish.cur != finish.first) {
+            --finish.cur;
+            destroy(finish.cur);
+        }
+        else
+            // finish point to a empty buffer
+            pop_back_aux();
+    }
+
 }; // class deque
 
 template<class T, class Alloc, size_t BufSize>
@@ -345,6 +357,14 @@ void deque<T, Alloc, BufSize>::reallocate_map(size_type nodes_to_add, bool add_a
 
     start.set_node(new_nstart);
     finish.set_node(new_nstart + old_num_nodes - 1);
+}
+
+template<class T, class Alloc, size_t BufSize>
+void deque<T, Alloc, BufSize>::pop_back_aux() {
+    deallocate_node(finish.node);
+    finish.set_node(finish.node - 1);
+    finish.cur = finish.last - 1;
+    destroy(finish.cur);
 }
 
 } // namespace Sstl

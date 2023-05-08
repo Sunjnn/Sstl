@@ -264,6 +264,26 @@ public:
     // clear deque
     // leave at least a buffer
     void clear();
+
+    // erase iterator
+    iterator erase(iterator pos) {
+        iterator next = pos;
+        ++next;
+        difference_type index = pos - start;
+
+        if (index < (size() >> 1)) {
+            // pos is close to start
+            copy_backward(start, pos, next);
+            pop_front();
+        }
+        else {
+            // pos is close to finish
+            copy(next, finish, pos);
+            pop_back()
+        }
+        return start + index;
+    }
+    iterator erase(iterator first, iterator last);
 }; // class deque
 
 template<class T, class Alloc, size_t BufSize>
@@ -415,6 +435,37 @@ void deque<T, Alloc, BufSize>::clear() {
         destroy(start.cur, finish.cur);
 
     finish = start;
+}
+
+template<class T, class Alloc, size_t BufSize>
+typename deque<T, Alloc, BufSize>::iterator
+deque<T, Alloc, BufSize>::erase(iterator first, iterator last) {
+    if (first == start && last == finish) {
+        // erase all elements in the deque
+        clear();
+        return finish;
+    }
+    else {
+        difference_type n = last - first;
+        difference_type elems_before = first - start;
+        if (elems_before < (size() - n) >> 1) {
+            copy_backward(start, first, last);
+            iterator new_start = start + n;
+            destroy(start, new_start);
+            for (map_pointer cur = start.node; cur < new_start.node; ++cur)
+                data_allocator::deallocate(*cur, buffer_size());
+            start = new_start;
+        }
+        else {
+            copy(last, finish, first);
+            iterator new_finish = finish - n;
+            destroy(new_finish, finish);
+            for (map_pointer cur = new_finish.node + 1; cur <= finish.node; ++cur)
+                data_allocator::deallocate(*cur, buffer_size());
+            finish = new_finish;
+        }
+        return start + elems_before;
+    }
 }
 
 } // namespace Sstl

@@ -291,7 +291,6 @@ template<class T, class Alloc, size_t BufSize>
 void deque<T, Alloc, BufSize>::push_back_aux(const value_type &t) {
     value_type t_copy = t;
 
-    // todo: definee reserve_map_at_back()
     // if map is full
     reserve_map_at_back();
 

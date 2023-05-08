@@ -260,6 +260,10 @@ public:
             // start is the only element of the buffer
             pop_front_aux();
     }
+
+    // clear deque
+    // leave at least a buffer
+    void clear();
 }; // class deque
 
 template<class T, class Alloc, size_t BufSize>
@@ -383,6 +387,34 @@ void deque<T, Alloc, BufSize>::pop_front_aux() {
     deallocate_node(start.node);
     start.set_node(start.node + 1);
     start.cur = start.first;
+}
+
+template<class T, class Alloc, size_t BufSize>
+void deque<T, Alloc, BufSize>::clear() {
+    // for each node between start and finish, they are full
+    for (map_pointer node = start.node + 1; node < finish.node; ++node) {
+        // destroy each element in the buffer
+        destroy(*node, *node + buffer_size());
+        // deallocate buffer
+        data_allocator::deallocate(*node, buffer_size());
+    }
+
+    if (start.node != finish.node) {
+        // start and finish buffer exist
+
+        // destroy elements in start and finish buffer
+        destroy(start.cur, start.last);
+        destroy(finish.first, finish.cur);
+
+        // deallocate finish buffer
+        data_allocator::deallocate(finish.first, buffer_size());
+    }
+    else
+        // only start buffer exist
+        // destroy elements in start buffer
+        destroy(start.cur, finish.cur);
+
+    finish = start;
 }
 
 } // namespace Sstl

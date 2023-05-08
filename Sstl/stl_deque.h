@@ -361,7 +361,7 @@ void deque<T, Alloc, BufSize>::reallocate_map(size_type nodes_to_add, bool add_a
 
 template<class T, class Alloc, size_t BufSize>
 void deque<T, Alloc, BufSize>::pop_back_aux() {
-    deallocate_node(finish.node);
+    deallocate_node(finish.first);
     finish.set_node(finish.node - 1);
     finish.cur = finish.last - 1;
     destroy(finish.cur);

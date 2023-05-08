@@ -249,6 +249,17 @@ public:
             pop_back_aux();
     }
 
+    void pop_front_aux();
+    // remove an element from the front of deque
+    void pop_back() {
+        if (start.cur != start.last - 1) {
+            destroy(start.cur);
+            ++start.cur;
+        }
+        else
+            // start is the only element of the buffer
+            pop_front_aux();
+    }
 }; // class deque
 
 template<class T, class Alloc, size_t BufSize>
@@ -364,6 +375,14 @@ void deque<T, Alloc, BufSize>::pop_back_aux() {
     finish.set_node(finish.node - 1);
     finish.cur = finish.last - 1;
     destroy(finish.cur);
+}
+
+template<class T, class Alloc, size_t BufSize>
+void deque<T, Alloc, BufSize>::pop_front_aux() {
+    destroy(start.cur);
+    deallocate_node(start.node);
+    start.set_node(start.node + 1);
+    start.cur = start.first;
 }
 
 } // namespace Sstl

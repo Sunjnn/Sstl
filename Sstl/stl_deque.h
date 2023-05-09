@@ -22,7 +22,7 @@ template<class T, class Ref, class Ptr, size_t BufSiz>
 struct __deque_iterator {
     typedef __deque_iterator<T, T&, T*, BufSiz> iterator;
     typedef __deque_iterator<T, const T&, const T*, BufSiz> const_iterator;
-    static size_t buffer_size() {return __deque_buf_size(BufSiz, sizeof(T));}
+    static size_t buffer_size() {return __buffer_size(BufSiz, sizeof(T));}
 
     typedef random_access_iterator_tag  iterator_category;
     typedef T                           value_type;
@@ -51,7 +51,7 @@ struct __deque_iterator {
         last = first + difference_type(buffer_size());
     }
 
-    reference operator*() const {return *cur};
+    reference operator*() const {return *cur;}
     pointer operator->() const {return &(operator*());}
 
     difference_type operator-(const self& x) {
@@ -104,7 +104,7 @@ struct __deque_iterator {
         }
     }
     // iterator + n
-    self operator(difference_type n) const {
+    self operator+(difference_type n) const {
         self tmp = *this;
         return tmp += n;
     }
@@ -163,11 +163,11 @@ protected:
     inline size_type initial_map_size() {return 8;}
     // allocate element space for a node
     pointer allocate_node() {
-        return data_allocator.allocate(buffer_size());
+        return data_allocator::allocate(buffer_size());
     }
     //deallocate a node
     void deallocate_node(pointer node) {
-        data_allocator.deallocate(node);
+        data_allocator::deallocate(node);
     }
 
     void create_map_and_node(size_type num_element);
@@ -279,7 +279,7 @@ public:
         else {
             // pos is close to finish
             copy(next, finish, pos);
-            pop_back()
+            pop_back();
         }
         return start + index;
     }
@@ -306,7 +306,7 @@ public:
 
 template<class T, class Alloc, size_t BufSize>
 void deque<T, Alloc, BufSize>::fill_initialize(size_type n, const value_type &value) {
-    create_map_and_nodes(n);
+    create_map_and_node(n);
     map_pointer cur;
     for (cur = start.node; cur < finish.node; ++cur) {
         uninitialized_fill(*cur, *cur + buffer_size(), value);

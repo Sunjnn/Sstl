@@ -54,7 +54,7 @@ struct __deque_iterator {
     reference operator*() const {return *cur;}
     pointer operator->() const {return &(operator*());}
 
-    difference_type operator-(const self& x) {
+    difference_type operator-(const self& x) const {
         return difference_type(buffer_size()) * (node - x.node - 1) + (cur - first) + (x.last - x.cur);
     }
 

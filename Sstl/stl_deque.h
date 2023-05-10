@@ -192,6 +192,7 @@ public:
     deque(int n, const value_type &value) : start(), finish(), map(0), map_size(0) {
         fill_initialize(n, value);
     }
+    deque() : deque(0, 0) {}
 
     iterator begin() const {return start;}
     iterator end() const {return finish;}

@@ -34,5 +34,16 @@ int main(int argc, char **argv) {
     assert(deque2.empty() == false);
     cout << "success!\n" << endl;
 
+    // deque operator[]
+    cout << "********************" << endl;
+    cout << "test operator[]" << endl;
+    for (int i = 0; i < deque1.size(); ++i) {
+        assert(deque1[i] == 10);
+    }
+    for (int i = 0; i < deque2.size(); ++i) {
+        assert(deque2[i] == 10);
+    }
+    cout << "success!\n" << endl;
+
     return 0;
 }

@@ -100,8 +100,8 @@ struct __deque_iterator {
             difference_type node_offset = offset > 0 ? offset / difference_type(buffer_size()) : -difference_type((-offset - 1) / buffer_size()) - 1;
             set_node(node + node_offset);
             cur = first + (offset - node_offset * difference_type(buffer_size()));
-            return *this;
         }
+        return *this;
     }
     // iterator + n
     self operator+(difference_type n) const {

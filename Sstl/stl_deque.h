@@ -423,7 +423,7 @@ void deque<T, Alloc, BufSize>::pop_back_aux() {
 template<class T, class Alloc, size_t BufSize>
 void deque<T, Alloc, BufSize>::pop_front_aux() {
     destroy(start.cur);
-    deallocate_node(start.node);
+    deallocate_node(start.first);
     start.set_node(start.node + 1);
     start.cur = start.first;
 }

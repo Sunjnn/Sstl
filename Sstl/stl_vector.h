@@ -6,8 +6,7 @@
 #include "stl_alloc.h"
 #include "stl_uninitialized.h"
 #include "max.h"
-// todo: implement a intializer_list head file
-#include <initializer_list>
+#include "stl_initializer_list.h"
 
 // gcc implementation
 #include <cstddef>

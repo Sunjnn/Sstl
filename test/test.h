@@ -25,7 +25,7 @@ template<class ForwardIterator, class T>
 bool compare_n(ForwardIterator first, ForwardIterator last, std::initializer_list<T> il) {
     typedef typename std::initializer_list<T>::iterator ilitT;
     ilitT it_il = il.begin();
-    ilitT il_il_end = il.end();
+    ilitT it_il_end = il.end();
 
     while (first < last && it_il < it_il_end) {
         if (*first != *it_il) return false;

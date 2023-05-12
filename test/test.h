@@ -36,4 +36,14 @@ bool compare_n(ForwardIterator first, ForwardIterator last, std::initializer_lis
     return first == last && it_il == it_il_end;
 }
 
+template<class ForwardIterator1, class ForwardIterator2>
+bool compare_n(ForwardIterator1 first1, ForwardIterator1 last1, ForwardIterator2 first2, ForwardIterator2 last2) {
+    while (first1 < last1 && first2 < last2) {
+        if (*first1 != *first2) return false;
+        ++first1;
+        ++first2;
+    }
+    return first1 == last1 && first2 == last2;
+}
+
 #endif

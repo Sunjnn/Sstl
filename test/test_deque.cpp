@@ -64,5 +64,22 @@ int main(int argc, char **argv) {
     assert(compare_n(deque1.begin(), deque1.end(), std_deque.begin(), std_deque.end()));
     cout << "success!\n" << endl;
 
+    // push_back() and pop_back()
+    cout << "********************" << endl;
+    cout << "test push_back() and pop_back()" << endl;
+
+    for (int i = 0; i < 5 * 128; ++i) {
+        deque1.push_back(i);
+        std_deque.push_back(i);
+    }
+    assert(compare_n(deque1.begin(), deque1.end(), std_deque.begin(), std_deque.end()));
+
+    for (int i = 0; i < 5 * 128; ++i) {
+        deque1.pop_back();
+        std_deque.pop_back();
+    }
+    assert(compare_n(deque1.begin(), deque1.end(), std_deque.begin(), std_deque.end()));
+    cout << "success!\n" << endl;
+
     return 0;
 }

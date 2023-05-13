@@ -91,5 +91,23 @@ int main(int argc, char **argv) {
     assert(compare_n(deque1.begin(), deque1.end(), std_deque.begin(), std_deque.end()));
     cout << "success!\n" << endl;
 
+    // erase()
+    cout << "********************" << endl;
+    cout << "test erase()" << endl;
+
+    deque1.erase(deque1.begin());
+    std_deque.erase(std_deque.begin());
+
+    it1 = deque1.begin() + 3;
+    it2 = std_deque.begin() + 3;
+    deque1.erase(it1);
+    std_deque.erase(it2);
+
+    deque1.erase(deque1.begin() + 10, deque1.begin() + 30);
+    std_deque.erase(std_deque.begin() + 10, std_deque.begin() + 30);
+
+    assert(compare_n(deque1.begin(), deque1.end(), std_deque.begin(), std_deque.end()));
+    cout << "success!\n" << endl;
+
     return 0;
 }

@@ -5,6 +5,7 @@
 // gcc implementation
 #include <iostream>
 #include <assert.h>
+#include <deque>
 using std::cout, std::endl;
 
 int main(int argc, char **argv) {
@@ -43,6 +44,24 @@ int main(int argc, char **argv) {
     for (int i = 0; i < deque2.size(); ++i) {
         assert(deque2[i] == 10);
     }
+    cout << "success!\n" << endl;
+
+    // push_front() and pop_front()
+    cout << "********************" << endl;
+    cout << "test push_front() and pop_front()" << endl;
+    std::deque<int> std_deque(20 * 128, 10);
+
+    for (int i = 0; i < 5 * 128; ++i) {
+        deque1.push_front(i);
+        std_deque.push_front(i);
+    }
+    assert(compare_n(deque1.begin(), deque1.end(), std_deque.begin(), std_deque.end()));
+
+    for (int i = 0; i < 5 * 128; ++i) {
+        deque1.pop_front();
+        std_deque.pop_front();
+    }
+    assert(compare_n(deque1.begin(), deque1.end(), std_deque.begin(), std_deque.end()));
     cout << "success!\n" << endl;
 
     return 0;

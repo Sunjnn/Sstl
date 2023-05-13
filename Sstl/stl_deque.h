@@ -129,6 +129,9 @@ struct __deque_iterator {
     bool operator<(const self &x) const {
         return (node == x.node) ? (cur < x.cur) : (node < x.node);
     }
+    bool operator<=(const self &x) const {
+        return *this == x || *this < x;
+    }
 }; // __deque_iterator
 
 template<class T, class Alloc = alloc, size_t BufSiz = 0>

@@ -109,5 +109,14 @@ int main(int argc, char **argv) {
     assert(compare_n(deque1.begin(), deque1.end(), std_deque.begin(), std_deque.end()));
     cout << "success!\n" << endl;
 
+    // clear()
+    cout << "********************" << endl;
+    cout << "test clear()" << endl;
+
+    deque1.clear();
+    assert(deque1.begin() == deque1.end());
+    assert(deque1.size() == 0);
+    assert(deque1.empty() == true);
+
     return 0;
 }

@@ -81,5 +81,15 @@ int main(int argc, char **argv) {
     assert(compare_n(deque1.begin(), deque1.end(), std_deque.begin(), std_deque.end()));
     cout << "success!\n" << endl;
 
+    // insert()
+    cout << "********************" << endl;
+    cout << "test insert()" << endl;
+    auto it1 = deque1.begin() + 3;
+    auto it2 = std_deque.begin() + 3;
+    deque1.insert(it1, 100);
+    std_deque.insert(it2, 100);
+    assert(compare_n(deque1.begin(), deque1.end(), std_deque.begin(), std_deque.end()));
+    cout << "success!\n" << endl;
+
     return 0;
 }

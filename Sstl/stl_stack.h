@@ -16,7 +16,7 @@ public:
     typedef typename Sequence::difference_type  difference_type;
 
 protected:
-    c;
+    Sequence c;
 
 public:
     bool empty() const {return c.empty();}

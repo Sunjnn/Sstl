@@ -11,3 +11,6 @@ test_list: test/test_list.cpp Sstl/*
 
 test_deque: test/test_deque.cpp Sstl/*
 	make -e -C test test_deque
+
+test_stack: test/test_stack.cpp Sstl/*
+	make -e -C test test_stack

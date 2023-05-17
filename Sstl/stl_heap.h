@@ -46,7 +46,7 @@ void __adjust_heap(RandomAccessIterator first, Distance holeIndex, Distance len,
     }
 
     if (secondChild == len) {
-        *(first + holeIndex) = *(first + (secondChild + 1));
+        *(first + holeIndex) = *(first + (secondChild - 1));
         holeIndex = secondChild - 1;
     }
 

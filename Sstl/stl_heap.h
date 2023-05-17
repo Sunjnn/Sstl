@@ -83,4 +83,27 @@ void sort_heap(RandomAccessIterator first, RandomAccessIterator last) {
 
 } // namespace Sstl
 
+// define make heap
+namespace Sstl {
+
+template<class RandomAccessIterator, class T, class Distance>
+void __make_heap(RandomAccessIterator first, RandomAccessIterator last, T*, Distance*) {
+    if (last - first < 2) return;
+    Distance len = last - first;
+    Distance parent = (len - 2) / 2;
+
+    while (true) {
+        __adjust_heap(first, parent, len, T(*(first + parent)));
+        if (parent == 0) return;
+        --parent;
+    }
+}
+
+template<class RandomAccessIterator>
+inline void make_heap(RandomAccessIterator first, RandomAccessIterator last) {
+    __make_heap(first, last, value_type(first), distance_type(first));
+}
+
+} // namespace
+
 #endif

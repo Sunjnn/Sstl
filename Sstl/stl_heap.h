@@ -71,4 +71,16 @@ inline void pop_heap(RandomAccessIterator first, RandomAccessIterator last) {
 
 } // namespace Sstl
 
+// define sort heap
+namespace Sstl {
+
+template<class RandomAccessIterator>
+void sort_heap(RandomAccessIterator first, RandomAccessIterator last) {
+    while (last - first > 1) {
+        pop_heap(first, last--);
+    }
+}
+
+} // namespace Sstl
+
 #endif

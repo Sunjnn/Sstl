@@ -56,7 +56,7 @@ void __adjust_heap(RandomAccessIterator first, Distance holeIndex, Distance len,
 template<class RandomAccessIterator, class T, class Distance>
 inline void __pop_heap(RandomAccessIterator first, RandomAccessIterator last, RandomAccessIterator result, T value, Distance*) {
     *result = *first;
-    __adjust_heap(first, distance(0), distance(last - first), value);
+    __adjust_heap(first, Distance(0), Distance(last - first), value);
 }
 
 template<class RandomAccessIterator, class T>

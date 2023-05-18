@@ -17,3 +17,7 @@ test_stack: test/test_stack.cpp Sstl/*
 
 test_queue: test/test_queue.cpp Sstl/*
 	make -e -C test test_queue
+
+test_heap: test/test_heap.cpp Sstl/*
+	make -e -C test test_heap
+

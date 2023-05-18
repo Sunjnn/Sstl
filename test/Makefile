@@ -18,3 +18,6 @@ test_stack: test_stack.cpp $(SSTL_DIR)/*
 
 test_queue: test_queue.cpp $(SSTL_DIR)/*
 	$(CC) $(CFLAGS) $< -o $(BUILD_DIR)/$@
+
+test_heap: test_heap.cpp $(SSTL_DIR)/*
+	$(CC) $(CFLAGS) $< -o $(BUILD_DIR)/$@

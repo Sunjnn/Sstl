@@ -2,6 +2,7 @@
 #define __STL_PRIORITY_QUEUE_H__
 
 #include "stl_vector.h"
+#include "stl_heap.h"
 
 namespace Sstl {
 

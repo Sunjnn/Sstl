@@ -21,3 +21,5 @@ test_queue: test/test_queue.cpp Sstl/*
 test_heap: test/test_heap.cpp Sstl/*
 	make -e -C test test_heap
 
+test_priority_queue: test/test_priority_queue.cpp Sstl/*
+	make -e -C test test_priority_queue

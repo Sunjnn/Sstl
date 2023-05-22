@@ -36,10 +36,13 @@ namespace Sstl {
 
 template<class RandomAccessIterator, class Distance, class T>
 void __adjust_heap(RandomAccessIterator first, Distance holeIndex, Distance len, T value) {
-    Distance topIndex = holeIndex;
+    // Distance topIndex = holeIndex;
     Distance secondChild = 2 * holeIndex + 2;
     while (secondChild < len) {
         if (*(first + secondChild) < *(first + (secondChild - 1))) --secondChild;
+        if (*(first + secondChild) < value) {
+            break;
+        }
         *(first + holeIndex) = *(first + secondChild);
         holeIndex = secondChild;
         secondChild = 2 * (secondChild + 1);
@@ -50,7 +53,7 @@ void __adjust_heap(RandomAccessIterator first, Distance holeIndex, Distance len,
         holeIndex = secondChild - 1;
     }
 
-    __push_heap(first, holeIndex, topIndex, value);
+    *(first + holeIndex) = value;
 }
 
 template<class RandomAccessIterator, class T, class Distance>

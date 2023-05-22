@@ -27,6 +27,7 @@ public:
 
     bool empty() const {return c.empty();}
     size_type size() const {return c.size();}
+    reference top() {return c.front();}
     void push(const value_type &x) {
         c.push_back(x);
         push_heap(c.begin(), c.end());

@@ -4,6 +4,8 @@
 #include "stl_initializer_list.h"
 
 #include <cstddef>
+#include <iostream>
+#include <string>
 
 template<class ForwardIterator, class T>
 bool compare_n(ForwardIterator first, ForwardIterator last, const size_t n, const T &x) {
@@ -44,6 +46,45 @@ bool compare_n(ForwardIterator1 first1, ForwardIterator1 last1, ForwardIterator2
         ++first2;
     }
     return first1 == last1 && first2 == last2;
+}
+
+class testBase {
+    std::string info;
+
+    void print_stars() {
+        std::cout << "********************" << std::endl;
+    }
+
+    void print_info() {
+        std::cout << info << std::endl;
+    }
+
+    virtual void test_func() {
+        std::cout << "print from testBase" << std::endl;
+    }
+
+    void print_succ() {
+        std::cout << "success!\n" << std::endl;
+    }
+
+    friend void test_run(testBase *t);
+
+public:
+    testBase(std::string s) : info(s) {}
+
+    testBase() {
+        print_stars();
+        print_info();
+        test_func();
+        print_succ();
+    }
+};
+
+void test_run(testBase *t) {
+    t->print_stars();
+    t->print_info();
+    t->test_func();
+    t->print_succ();
 }
 
 #endif

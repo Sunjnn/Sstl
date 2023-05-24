@@ -3,6 +3,7 @@
 
 #include "stl_construct.h"
 #include "type_traits.h"
+#include "fill_n.h"
 #include <string.h>
 
 namespace Sstl

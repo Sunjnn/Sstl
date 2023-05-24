@@ -23,3 +23,6 @@ test_heap: test/test_heap.cpp Sstl/*
 
 test_priority_queue: test/test_priority_queue.cpp Sstl/*
 	make -e -C test test_priority_queue
+
+test_slist: test/test_slist.cpp Sstl/*
+	make -e -C test test_slist

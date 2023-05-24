@@ -61,7 +61,7 @@ struct __slist_iterator : public __slist_iterator_base {
     typedef __slist_iterator<T, Ref, Ptr>           self;
 
     typedef T               value_type;
-    typedef Ptr             Pointer;
+    typedef Ptr             pointer;
     typedef Ref             reference;
     typedef __slist_node<T> list_node;
 
@@ -112,8 +112,8 @@ private:
         }
         catch (...) {
             list_node_allocator::deallocate(node);
-            return node;
         }
+        return node;
     }
 
     static void destroy(list_node *node) {

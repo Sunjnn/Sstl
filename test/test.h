@@ -29,7 +29,7 @@ bool compare_n(ForwardIterator first, ForwardIterator last, std::initializer_lis
     ilitT it_il = il.begin();
     ilitT it_il_end = il.end();
 
-    while (first < last && it_il < it_il_end) {
+    while (first != last && it_il != it_il_end) {
         if (*first != *it_il) return false;
         ++first;
         ++it_il;

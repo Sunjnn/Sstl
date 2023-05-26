@@ -3,26 +3,15 @@ ROOT_DIR = $(shell pwd)
 BUILD_DIR = $(ROOT_DIR)/build
 export CC ROOT_DIR BUILD_DIR
 
-test_vector: test/test_vector.cpp Sstl/*
-	make -e -C test test_vector
+.PHONY: default
+default:
+	@echo "file <test/Makefile> match no pattern"
+	@echo "make test_[structure]"
 
-test_list: test/test_list.cpp Sstl/*
-	make -e -C test test_list
+.PHONY: test_%
+test_%: test/test_%.cpp Sstl/*
+	make -e -C test $@
 
-test_deque: test/test_deque.cpp Sstl/*
-	make -e -C test test_deque
-
-test_stack: test/test_stack.cpp Sstl/*
-	make -e -C test test_stack
-
-test_queue: test/test_queue.cpp Sstl/*
-	make -e -C test test_queue
-
-test_heap: test/test_heap.cpp Sstl/*
-	make -e -C test test_heap
-
-test_priority_queue: test/test_priority_queue.cpp Sstl/*
-	make -e -C test test_priority_queue
-
-test_slist: test/test_slist.cpp Sstl/*
-	make -e -C test test_slist
+.PHONY: test_clean
+test_clean:
+	rm build/test_*

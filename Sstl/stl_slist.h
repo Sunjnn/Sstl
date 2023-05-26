@@ -116,7 +116,7 @@ private:
         return node;
     }
 
-    static void destroy(list_node *node) {
+    static void destroy_node(list_node *node) {
         destroy(&node->data);
         list_node_allocator::deallocate(node);
     }

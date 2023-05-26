@@ -150,6 +150,14 @@ public:
         destroy(node);
     }
 
+    void clear() {
+        list_node *node = (list_node*)head.next;
+        while (node) {
+            head.next = node->next;
+            destroy_node(node);
+            node = (list_node*)head.next;
+        }
+    }
 }; // class slist
 
 } // namespace Sstl

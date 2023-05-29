@@ -15,6 +15,16 @@ struct __rb_tree_node_base {
     base_ptr parent;
     base_ptr left;
     base_ptr right;
+
+    static base_ptr minimum(base_ptr x) {
+        while (x->left) x = x->left;
+        return x;
+    }
+
+    static base_ptr maximum(base_ptr x) {
+        while (x->right) x = x->right;
+        return x;
+    }
 };
 
 }

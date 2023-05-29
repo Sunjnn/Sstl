@@ -27,6 +27,13 @@ struct __rb_tree_node_base {
     }
 };
 
+template<class Value>
+struct __rb_tree_node : public __rb_tree_node_base {
+    typedef __rb_tree_node<Value>* link_type;
+    // node value
+    Value value_field;
+};
+
 }
 
 #endif

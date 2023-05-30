@@ -1,6 +1,7 @@
 #ifndef __STL_RB_TREE_H__
 #define __STL_RB_TREE_H__
 
+// rb tree node
 namespace Sstl {
 
 typedef bool __rb_tree_color_type;

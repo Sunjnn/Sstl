@@ -128,7 +128,7 @@ struct __rb_tree_iterator : public __rb_tree_base_iterator {
         decrement();
         return tmp;
     }
-} // struct __rb_tree_iterator
+}; // struct __rb_tree_iterator
 
 } // namespace Sstl
 

@@ -278,6 +278,18 @@ public:
     iterator insert_equal(const Value_type& x);
 }; // class rb_tree
 
+template<class Key, class Value, class KeyOfValue, class Compare, class Alloc>
+typename rb_tree<Key, Value, KeyOfValue, Compare, Alloc>::iterator
+rb_tree<Key, Value, KeyOfValue, Compare, Alloc>::insert_equal(const Value &v) {
+    link_type y = header;
+    link_type x = root();
+    while (x != 0) {
+        y = x;
+        x = key_compare(KeyOfValue()(v), key(x)) ? left(x) : right(x);
+    }
+    return __insert(x, y, v);
+}
+
 } // namespace Sstl
 
 

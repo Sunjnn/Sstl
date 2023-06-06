@@ -150,10 +150,10 @@ protected:
 public:
     typedef Key                 Key_type;
     typedef Value               Value_type;
-    typedef value_type*         pointer;
-    typedef const value_type*   const_pointer;
-    typedef value_type&         reference;
-    typedef const value_type&   const_reference;
+    typedef Value_type*         pointer;
+    typedef const Value_type*   const_pointer;
+    typedef Value_type&         reference;
+    typedef const Value_type&   const_reference;
     typedef rb_tree_node*       link_type;
     typedef size_t              size_type;
     typedef ptrdiff_t           difference_type;
@@ -273,9 +273,9 @@ public:
 
     // insert a node
     // node is unique in the tree
-    pair<iterator, bool> insert_unique(const value_type &x);
-    // several node can have same value
-    iterator insert_equal(const value_type& x);
+    pair<iterator, bool> insert_unique(const Value_type &x);
+    // several node can have same key
+    iterator insert_equal(const Value_type& x);
 }; // class rb_tree
 
 } // namespace Sstl

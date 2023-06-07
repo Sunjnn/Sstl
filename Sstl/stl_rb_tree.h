@@ -8,6 +8,7 @@
 
 // gcc implementation
 #include <cstddef>
+#include <map>
 
 // rb tree node
 namespace Sstl {
@@ -273,7 +274,7 @@ public:
 
     // insert a node
     // node is unique in the tree
-    pair<iterator, bool> insert_unique(const Value_type &x);
+    std::pair<iterator, bool> insert_unique(const Value_type &x);
     // several node can have same key
     iterator insert_equal(const Value_type& x);
 }; // class rb_tree
@@ -288,6 +289,32 @@ rb_tree<Key, Value, KeyOfValue, Compare, Alloc>::insert_equal(const Value &v) {
         x = key_compare(KeyOfValue()(v), key(x)) ? left(x) : right(x);
     }
     return __insert(x, y, v);
+}
+
+template<class Key, class Value, class KeyOfValue, class Compare, class Alloc>
+std::pair<typename rb_tree<Key, Value, KeyOfValue, Compare, Alloc>::iterator, bool>
+rb_tree<Key, Value, KeyOfValue, Compare, Alloc>::insert_unique(const Value &v) {
+    link_type y = header;
+    link_type x = root();
+    bool comp = true;
+    while (x != 0) {
+        y = x;
+        comp = key_compare(KeyOfValue()(v), key(x));
+        x = comp ? left(x) : right(x);
+    }
+
+    iterator j = iterator(y);
+    if (comp) {
+        if (j == begin()) 
+            return std::pair<iterator, bool>(__insert(x, y, v), true);
+        else
+            --j;
+    }
+
+    if (key_compare(key(j.node), KeyOfValue()(v)))
+        return std::pair<iterator, bool>(__insert(x, y, v), true);
+
+    return pair<iterator, bool>(j, false);
 }
 
 } // namespace Sstl

@@ -354,6 +354,8 @@ public:
     std::pair<iterator, bool> insert_unique(const Value_type &x);
     // several node can have same key
     iterator insert_equal(const Value_type& x);
+
+    iterator find(const Key_type &k);
 }; // class rb_tree
 
 template<class Key, class Value, class KeyOfValue, class Compare, class Alloc>
@@ -426,6 +428,23 @@ rb_tree<Key, Value, KeyOfValue, Compare, Alloc>::__insert(base_ptr x_, base_ptr 
     __rb_tree_rebalance(z, header->parent);
     ++node_count;
     return iterator(z);
+}
+
+template<class Key, class Value, class KeyOfValue, class Compare, class Alloc>
+typename rb_tree<Key, Value, KeyOfValue, Compare, Alloc>::iterator
+rb_tree<Key, Value, KeyOfValue, Compare, Alloc>::find(const Key &k) {
+    link_type y = header;
+    link_type x = root();
+
+    while (x != 0) {
+        if (!key_compare(key(x), k))
+            y = x, x = left(x);
+        else
+            x = right(x);
+    }
+
+    iterator j = iterator(y);
+    returrn (j == end() || key_compare(k, key(j.node))) ? end() : j;
 }
 
 } // namespace Sstl

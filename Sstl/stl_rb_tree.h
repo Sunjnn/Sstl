@@ -44,6 +44,40 @@ struct __rb_tree_node : public __rb_tree_node_base {
     Value value_field;
 };
 
+inline void __rb_tree_rotate_left(__rb_tree_node_base *x, __rb_tree_node_base *&root) {
+    __rb_tree_node_base *y = x->right;
+    x->right = y->right;
+    if (y->left != 0)
+        y->left->parent = x;
+    y->parent = x->parent;
+
+    if (x == root)
+        root = y;
+    else if (x == x->parent->left)
+        x->parent->left = y;
+    else
+        x->parent->right = y;
+    y->left = x;
+    x->parent = y;
+}
+
+inline void __rb_tree_rotate_right(__rb_tree_node_base *x, __rb_tree_node_base *&root) {
+    __rb_tree_node_base *y = x->left;
+    x->left = y->right;
+    if (y->right != 0)
+        y->right->parent = x;
+    y->parent = x->parent;
+
+    if (x == root)
+        root = y;
+    else if (x == x->parent->right)
+        x->parent->right = y;
+    else
+        x->parent->left = y;
+    y->right = x;
+    x->parent = y;
+}
+
 inline void __rb_tree_rebalance(__rb_tree_node_base *x, __rb_tree_node_base *root) {
     x->color = __rb_tree_red;
     while (x != root && x->parent->color == __rb_tree_red) {

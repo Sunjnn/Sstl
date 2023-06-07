@@ -167,7 +167,7 @@ protected:
         rb_tree_node_allocator::deallocate(p);
     }
 
-    link_type create_node(const value_type &x) {
+    link_type create_node(const Value_type &x) {
         link_type tmp = get_node();
         construct(&tmp->value_field, x);
         return tmp;
@@ -232,10 +232,10 @@ protected:
 
 public:
     // define type of iterator
-    typedef __rb_tree_iterator<value_type, reference, pointer> iterator;
+    typedef __rb_tree_iterator<Value_type, reference, pointer> iterator;
 
 private:
-    iterator __insert(base_ptr x, base_ptr y, const value_type &v);
+    iterator __insert(base_ptr x, base_ptr y, const Value_type &v);
     link_type __copy(link_type x, link_type p);
     void __erase(link_type x);
     // initialize a rb tree

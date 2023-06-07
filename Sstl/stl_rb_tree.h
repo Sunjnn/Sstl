@@ -317,6 +317,40 @@ rb_tree<Key, Value, KeyOfValue, Compare, Alloc>::insert_unique(const Value &v) {
     return pair<iterator, bool>(j, false);
 }
 
+template<class Key, class Value, class KeyOfValue, class Compare, class Alloc>
+typename rb_tree<Key, Value, KeyOfValue, Compare, Alloc>::iterator
+rb_tree<Key, Value, KeyOfValue, Compare, Alloc>::__insert(base_ptr x_, base_ptr y_, const Value &v) {
+    link_type x = (link_type)x_;
+    link_type y = (link_type)y_;
+    link_type z;
+
+    if (y == header || x != 0 || key_compare(KeyOfValue()(v), key(y))) {
+        z = create_node(v);
+        left(y) = z;
+        if (y == header) {
+            root() = z;
+            rightmost = z;
+        }
+        else if (y == leftmost()) {
+            leftmost() = z;
+        }
+    }
+    else {
+        z = create_node(v);
+        right y = z;
+        if (y == rightmost()) {
+            rightmost() = z;
+        }
+    }
+    parent(z) = y;
+    left(z) = 0;
+    right(z) = 0;
+
+    __rb_tree_rebalance(z, header->parent);
+    ++node_count;
+    return iterator(z);
+}
+
 } // namespace Sstl
 
 

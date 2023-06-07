@@ -44,6 +44,49 @@ struct __rb_tree_node : public __rb_tree_node_base {
     Value value_field;
 };
 
+inline void __rb_tree_rebalance(__rb_tree_node_base *x, __rb_tree_node_base *root) {
+    x->color = __rb_tree_red;
+    while (x != root && x->parent->color == __rb_tree_red) {
+        if (x->parent == x->parent->parent->left) {
+            __rb_tree_node_base *y = x->parent->parent->right;
+            if (y && y->color == __rb_tree_red) {
+                x->parent->color = __rb_tree_black;
+                y->color = __rb_tree_black;
+                x->parent->parent->color = __rb_tree_red;
+                x = x->parent->parent;
+            }
+            else {
+                if (x == x->parent->right) {
+                    x = x->parent;
+                    __rb_tree_rotate_left(x, root);
+                }
+                x->parent->color = __rb_tree_black;
+                x->parent->parent->color = __rb_tree_red;
+                __rb_tree_rotate_right(x->parent->parent, root);
+            }
+        }
+        else {
+            __rb_tree_node_base *y = x->parent->parent->left;
+            if (y && y->color == __rb_tree_red) {
+                x->parent->color = __rb_tree_black;
+                y->color = __rb_tree_black;
+                x->parent->parent->color = __rb_tree_red;
+                x = x->parent->parent;
+            }
+            else {
+                if (x == x->parent->left) {
+                    x = x->parent;
+                    __rb_tree_rotate_left(x, root);
+                }
+                x->parent->color = __rb_tree_black;
+                x->parent->parent->color = __rb_tree_red;
+                __rb_tree_rotate_left(x->parent->parent, root);
+            }
+        }
+    } // end while
+    root->color = __rb_tree_black;
+}
+
 } // namespace Sstl
 
 // rb iterator

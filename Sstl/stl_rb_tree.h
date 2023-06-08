@@ -46,7 +46,7 @@ struct __rb_tree_node : public __rb_tree_node_base {
 
 inline void __rb_tree_rotate_left(__rb_tree_node_base *x, __rb_tree_node_base *&root) {
     __rb_tree_node_base *y = x->right;
-    x->right = y->right;
+    x->right = y->left;
     if (y->left != 0)
         y->left->parent = x;
     y->parent = x->parent;

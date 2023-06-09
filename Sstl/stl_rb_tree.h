@@ -44,6 +44,8 @@ struct __rb_tree_node : public __rb_tree_node_base {
     Value value_field;
 };
 
+// rotate left
+// reverse graph of `__rb_tree_rotate_right`
 inline void __rb_tree_rotate_left(__rb_tree_node_base *x, __rb_tree_node_base *&root) {
     __rb_tree_node_base *y = x->right;
     x->right = y->left;
@@ -61,6 +63,26 @@ inline void __rb_tree_rotate_left(__rb_tree_node_base *x, __rb_tree_node_base *&
     x->parent = y;
 }
 
+/*
+rotate right
+parameter `x` is G in the graph below
+from
+              G
+             / \
+            P   S
+           / \  / \
+          X   C D  E
+         / \
+        A   B
+to
+               P
+            /     \
+           X       G
+          / \     / \
+         A   B   C   S
+                    / \
+                   D   E
+*/
 inline void __rb_tree_rotate_right(__rb_tree_node_base *x, __rb_tree_node_base *&root) {
     __rb_tree_node_base *y = x->left;
     x->left = y->right;
@@ -84,12 +106,17 @@ inline void __rb_tree_rebalance(__rb_tree_node_base *x, __rb_tree_node_base *roo
         if (x->parent == x->parent->parent->left) {
             __rb_tree_node_base *y = x->parent->parent->right;
             if (y && y->color == __rb_tree_red) {
+            // G is black and its children (P and S) are red
+            // change color of G P S
                 x->parent->color = __rb_tree_black;
                 y->color = __rb_tree_black;
                 x->parent->parent->color = __rb_tree_red;
                 x = x->parent->parent;
             }
             else {
+            // G is black where its left P is red and its right S is black
+            // if x is P's left, rotate right G and change color of G P. Condition 1
+            // else rotate left P, rotate right G and change color of G X. Condition 2
                 if (x == x->parent->right) {
                     x = x->parent;
                     __rb_tree_rotate_left(x, root);
@@ -99,7 +126,7 @@ inline void __rb_tree_rebalance(__rb_tree_node_base *x, __rb_tree_node_base *roo
                 __rb_tree_rotate_right(x->parent->parent, root);
             }
         }
-        else {
+        else { // reverse condition of above branch
             __rb_tree_node_base *y = x->parent->parent->left;
             if (y && y->color == __rb_tree_red) {
                 x->parent->color = __rb_tree_black;
@@ -119,13 +146,14 @@ inline void __rb_tree_rebalance(__rb_tree_node_base *x, __rb_tree_node_base *roo
         }
     } // end while
     root->color = __rb_tree_black;
-}
+} // inline void __rb_tree_rebalance(__rb_tree_node_base *x, __rb_tree_node_base *root)
 
 } // namespace Sstl
 
 // rb iterator
 namespace Sstl {
 
+// the implementation of iterator need to consider the header of rb tree
 struct __rb_tree_base_iterator {
     typedef __rb_tree_node_base::base_ptr   base_ptr;
     typedef bidirectional_iterator_tag      iterator_category;
@@ -134,8 +162,18 @@ struct __rb_tree_base_iterator {
     base_ptr node;
 
     // implement operator++
+    //
+    // if node->right exists:
+    //      get the most left of node->right
+    // else if node == parent->right:
+    //      get parent's parent iteratively
+    // else if node == parent->left:
+    //      node = parent
+    //
+    // consider node == head, i.e. node == end(), ++node gets most left
     void increment() {
         if (node->right) {
+        // node->right exists
             node = node->right;
             while (node->left)
                 node = node->left;
@@ -146,17 +184,31 @@ struct __rb_tree_base_iterator {
                 node = y;
                 y = node->parent;
             }
+
+            // consider a specific condition: there is only one node, so header->right == node
+            // after code above, node == header and y == root, so node is what needed
+            // otherwise node == y->left
             if (node->right != y)
                 node = y;
         }
     }
 
     // implement operator--
+    //
+    // if node == header:
+    //      --node gets the most right i.e. node->right
+    // else if node->left exists:
+    //      get the most right of node->left
+    // else if node == parent->left:
+    //      get parent iteratively
+    //
     void decrement() {
         if (node->color == __rb_tree_red && node->parent->parent == node) {
+        // node is header
             node = node->right;
         }
         else if (node->left) {
+        // node->left exists
             base_ptr y = node->left;
             while (y->right)
                 y = y->right;
@@ -169,6 +221,8 @@ struct __rb_tree_base_iterator {
                 y = y->parent;
             }
 
+            // node == root && node->left doesn't exist
+            // after code above, node is header and it is what needed
             if (node->left != y)
                 node = y;
         }
@@ -239,13 +293,16 @@ public:
     typedef ptrdiff_t           difference_type;
 
 protected:
+    // allocate an empty node
     link_type get_node() {
         return rb_tree_node_allocator::allocate();
     }
+    // deallocate node
     void put_node(link_type p) {
         rb_tree_node_allocator::deallocate(p);
     }
 
+    // create an node and construct it with x
     link_type create_node(const Value_type &x) {
         link_type tmp = get_node();
         construct(&tmp->value_field, x);
@@ -380,18 +437,26 @@ rb_tree<Key, Value, KeyOfValue, Compare, Alloc>::insert_unique(const Value &v) {
     bool comp = true;
     while (x != 0) {
         y = x;
+        // v is less than x, left
+        // otherwise, right
         comp = key_compare(KeyOfValue()(v), key(x));
         x = comp ? left(x) : right(x);
     }
 
+    // y is parent of insert point
     iterator j = iterator(y);
     if (comp) {
+        // v < y
+        // if y is the most left, insert
+        // else test v and y->left
         if (j == begin()) 
             return std::pair<iterator, bool>(__insert(x, y, v), true);
         else
             --j;
     }
 
+    // if decrement(y) < v, insert
+    // otherwise, duplicate v
     if (key_compare(key(j.node), KeyOfValue()(v)))
         return std::pair<iterator, bool>(__insert(x, y, v), true);
 
@@ -406,6 +471,7 @@ rb_tree<Key, Value, KeyOfValue, Compare, Alloc>::__insert(base_ptr x_, base_ptr 
     link_type z;
 
     if (y == header || x != 0 || key_compare(KeyOfValue()(v), key(y))) {
+    // v < y
         z = create_node(v);
         left(y) = z;
         if (y == header) {

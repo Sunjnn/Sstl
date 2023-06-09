@@ -418,7 +418,7 @@ rb_tree<Key, Value, KeyOfValue, Compare, Alloc>::__insert(base_ptr x_, base_ptr 
     }
     else {
         z = create_node(v);
-        right y = z;
+        right(y) = z;
         if (y == rightmost()) {
             rightmost() = z;
         }

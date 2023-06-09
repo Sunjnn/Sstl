@@ -168,7 +168,9 @@ struct __rb_tree_base_iterator {
                 node = y;
                 y = y->parent;
             }
-            node = y;
+
+            if (node->left != y)
+                node = y;
         }
     }
 }; // struct __rb_tree_base_iterator

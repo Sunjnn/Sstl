@@ -369,6 +369,7 @@ protected:
 public:
     // define type of iterator
     typedef __rb_tree_iterator<Value_type, reference, pointer> iterator;
+    typedef __rb_tree_iterator<Value_type, const_reference, const_pointer> const_iterator;
 
 private:
     iterator __insert(base_ptr x, base_ptr y, const Value_type &v);

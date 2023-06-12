@@ -20,11 +20,11 @@ public:
     typedef Compare value_compare;
 
 private:
-    // template<class T>
-    // struct identity : public std::unary_function<T, T> {
-    //     const T& operator()(const T& x) const {return x;}
-    // };
-    typedef rb_tree<key_type, value_type, std::identity<value_type>, key_compare, Alloc> rep_type;
+    template<class T>
+    struct identity {
+        const T& operator()(const T& x) const {return x;}
+    };
+    typedef rb_tree<key_type, value_type, identity<value_type>, key_compare, Alloc> rep_type;
     rep_type t;
 
 public:

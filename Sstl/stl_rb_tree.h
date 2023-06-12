@@ -419,6 +419,14 @@ public:
     // several node can have same key
     iterator insert_equal(const Value_type& x);
 
+    // range insertion
+    template<class InputIterator>
+    void insert_unique(InputIterator first, InputIterator last) {
+        while (first != last) {
+            insert_unique(*first);
+        }
+    }
+
     iterator find(const Key_type &k);
 }; // class rb_tree
 

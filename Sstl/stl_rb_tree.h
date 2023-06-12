@@ -227,6 +227,10 @@ struct __rb_tree_base_iterator {
                 node = y;
         }
     }
+
+    bool operator==(const __rb_tree_base_iterator &rhv) {
+        return node == rhv.node;
+    }
 }; // struct __rb_tree_base_iterator
 
 template<class Value, class Ref, class Ptr>

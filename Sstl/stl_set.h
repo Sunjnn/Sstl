@@ -3,9 +3,11 @@
 
 // my implementation
 #include "stl_alloc.h"
+#include "stl_rb_tree.h"
 
 // gcc implementation
 #include <functional>
+#include <utility>
 
 namespace Sstl {
 

@@ -241,7 +241,7 @@ struct __rb_tree_iterator : public __rb_tree_base_iterator {
 
     __rb_tree_iterator() {}
     __rb_tree_iterator(link_type x) {node = x;}
-    __rb_tree_iterator(const iterator& it) {node=it.node};
+    __rb_tree_iterator(const iterator& it) {node=it.node;}
 
     reference operator*() const {return link_type(node)->value_field;}
     pointer operator->() const {return &(operator*());}
@@ -352,7 +352,7 @@ protected:
         return x->value_field;
     }
     static const Key& key(link_type x) {
-        return KeyOfValue(value(x));
+        return KeyOfValue()(value(x));
     }
     static color_type& color(link_type x) {
         return (color_type&)x->color;
@@ -461,7 +461,7 @@ rb_tree<Key, Value, KeyOfValue, Compare, Alloc>::insert_unique(const Value &v) {
     if (key_compare(key(j.node), KeyOfValue()(v)))
         return std::pair<iterator, bool>(__insert(x, y, v), true);
 
-    return pair<iterator, bool>(j, false);
+    return std::pair<iterator, bool>(j, false);
 }
 
 template<class Key, class Value, class KeyOfValue, class Compare, class Alloc>

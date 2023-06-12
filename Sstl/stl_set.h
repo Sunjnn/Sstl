@@ -70,10 +70,10 @@ public:
     size_type max_size() const {return t.max_size();}
     void swap(set<Key, Compare, Alloc> &x) {t.swap(x.t);}
 
-    typedef pair<iterator, bool> pair_iterator_bool;
-    pair<iterator, bool> insert(const value_type &x) {
-        pair<typename rep_type::iterator, bool> p = t.insert_unique(x);
-        return pair<iterator, bool>(p.first, p.second);
+    typedef std::pair<iterator, bool> pair_iterator_bool;
+    std::pair<iterator, bool> insert(const value_type &x) {
+        std::pair<typename rep_type::iterator, bool> p = t.insert_unique(x);
+        return std::pair<iterator, bool>(p.first, p.second);
     }
     iterator insert(iterator position, const value_type &x) {
         typedef typename rep_type::iterator rep_iterator;
@@ -104,7 +104,7 @@ public:
     iterator upper_bound(const key_type &x) const {
         return t.upper_bound(x);
     }
-    pair<iterator, iterator> equal_range(const key_type &x) const {
+    std::pair<iterator, iterator> equal_range(const key_type &x) const {
         return t.equal_range(x);
     }
     friend bool operator==(const set&, const set&);

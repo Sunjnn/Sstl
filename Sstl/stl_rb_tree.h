@@ -473,7 +473,7 @@ rb_tree<Key, Value, KeyOfValue, Compare, Alloc>::insert_unique(const Value &v) {
 
     // if decrement(y) < v, insert
     // otherwise, duplicate v
-    if (key_compare(key(j.node), KeyOfValue()(v)))
+    if (key_compare(key(link_type(j.node)), KeyOfValue()(v)))
         return std::pair<iterator, bool>(__insert(x, y, v), true);
 
     return std::pair<iterator, bool>(j, false);

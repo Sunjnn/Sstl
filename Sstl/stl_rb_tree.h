@@ -389,8 +389,8 @@ private:
         color(header) = __rb_tree_red;
 
         root() = 0;
-        leftmost = header;
-        rightmost = header;
+        leftmost() = header;
+        rightmost() = header;
     }
 
 public:
@@ -492,7 +492,7 @@ rb_tree<Key, Value, KeyOfValue, Compare, Alloc>::__insert(base_ptr x_, base_ptr 
         left(y) = z;
         if (y == header) {
             root() = z;
-            rightmost = z;
+            rightmost() = z;
         }
         else if (y == leftmost()) {
             leftmost() = z;

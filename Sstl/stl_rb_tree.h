@@ -100,7 +100,7 @@ inline void __rb_tree_rotate_right(__rb_tree_node_base *x, __rb_tree_node_base *
     x->parent = y;
 }
 
-inline void __rb_tree_rebalance(__rb_tree_node_base *x, __rb_tree_node_base *root) {
+inline void __rb_tree_rebalance(__rb_tree_node_base *x, __rb_tree_node_base *&root) {
     x->color = __rb_tree_red;
     while (x != root && x->parent->color == __rb_tree_red) {
         if (x->parent == x->parent->parent->left) {
@@ -137,7 +137,7 @@ inline void __rb_tree_rebalance(__rb_tree_node_base *x, __rb_tree_node_base *roo
             else {
                 if (x == x->parent->left) {
                     x = x->parent;
-                    __rb_tree_rotate_left(x, root);
+                    __rb_tree_rotate_right(x, root);
                 }
                 x->parent->color = __rb_tree_black;
                 x->parent->parent->color = __rb_tree_red;

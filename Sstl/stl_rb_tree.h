@@ -430,7 +430,7 @@ public:
         }
     }
 
-    iterator find(const Key_type &k);
+    iterator find(const Key_type &k) const;
     size_type count(const Key_type &k) const;
 }; // class rb_tree
 
@@ -517,7 +517,7 @@ rb_tree<Key, Value, KeyOfValue, Compare, Alloc>::__insert(base_ptr x_, base_ptr 
 
 template<class Key, class Value, class KeyOfValue, class Compare, class Alloc>
 typename rb_tree<Key, Value, KeyOfValue, Compare, Alloc>::iterator
-rb_tree<Key, Value, KeyOfValue, Compare, Alloc>::find(const Key &k) {
+rb_tree<Key, Value, KeyOfValue, Compare, Alloc>::find(const Key &k) const {
     link_type y = header;
     link_type x = root();
 

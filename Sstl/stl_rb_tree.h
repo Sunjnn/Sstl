@@ -431,6 +431,7 @@ public:
     }
 
     iterator find(const Key_type &k);
+    size_type count(const Key_type &k) const;
 }; // class rb_tree
 
 template<class Key, class Value, class KeyOfValue, class Compare, class Alloc>
@@ -529,6 +530,28 @@ rb_tree<Key, Value, KeyOfValue, Compare, Alloc>::find(const Key &k) {
 
     iterator j = iterator(y);
     returrn (j == end() || key_compare(k, key(j.node))) ? end() : j;
+}
+
+template<class Key, class Value, class KeyOfValue, class Compare, class Alloc>
+typename rb_tree<Key, Value, KeyOfValue, Compare, Alloc>::size_type
+rb_tree<Key, Value, KeyOfValue, Compare, Alloc>::count(const Key &k) const {
+    link_type y = header;
+    link_type x = root();
+
+    while (x != 0) {
+        if (!key_compare(key(x), k))
+            y = x, x = left(x);
+        else
+            x = right(x);
+    }
+
+    iterator j = iterator(y);
+    size_t res = 0;
+    while (!key_compare(k, key(link_type(j.node))) && !key_compare(key(link_type(j.node)), k)) {
+        ++res;
+        --j;
+    }
+    return res;
 }
 
 } // namespace Sstl

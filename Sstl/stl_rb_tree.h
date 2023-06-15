@@ -427,6 +427,7 @@ public:
     void insert_unique(InputIterator first, InputIterator last) {
         while (first != last) {
             insert_unique(*first);
+            ++first;
         }
     }
 

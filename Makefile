@@ -12,6 +12,9 @@ default:
 test_%: test/test_%.cpp Sstl/*
 	make -e -C test $@
 
+test_debug_%: test/test_%.cpp Sstl/*
+	make -e -C test $@
+
 .PHONY: test_clean
 test_clean:
 	rm build/test_*

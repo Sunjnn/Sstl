@@ -11,3 +11,7 @@ default:
 .PHONY: test_%
 test_%: test_%.cpp $(SSTL_DIR)/*
 	$(CC) $(CFLAGS) $< -o $(BUILD_DIR)/$@
+
+.PHONY: test_debug_%
+test_debug_%: test_%.cpp $(SSTL_DIR)/*
+	$(CC) $(CFLAGS) -g $< -o $(BUILD_DIR)/$@

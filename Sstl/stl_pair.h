@@ -17,5 +17,17 @@ struct pair {
 
 } // namespace Sstl
 
+namespace Sstl {
+
+template<class pair>
+class select1st {
+public:
+    const pair::first_type operator()(const pair &x) {
+        return x.first;
+    }
+};
+
+} // namespace Sstl
+
 
 #endif

@@ -517,6 +517,134 @@ rb_tree<Key, Value, KeyOfValue, Compare, Alloc>::__insert(base_ptr x_, base_ptr 
 }
 
 template<class Key, class Value, class KeyOfValue, class Compare, class Alloc>
+void rb_tree<Key, Value, KeyOfValue, Compare, Alloc>::__erase(rb_tree<Key, Value, KeyOfValue, Compare, Alloc>::link_type x) {
+    // x has two children
+    // find successor su of x, set value of x as su and erase su
+    if (x->left && x->right) {
+        iterator it_x = iterator(x);
+        ++it_x;
+        link_type succ_x = it_x->node;
+        x->value_field = succ_x->value_field;
+        __erase(succ_x);
+        return;
+    }
+
+    // x has no children and x is root
+    // set the tree to the initial state
+    if (x == root() && !x->left && !x->right) {
+        root() = 0;
+        leftmost() = header;
+        rightmost() = header;
+
+        destroy_node(x);
+        return;
+    }
+
+    // x has no children and x is red
+    // erase x
+    if (x->color == __rb_tree_red && !x->left) {
+        if (x == x->parent->left) {
+            x->parent->left = 0;
+        }
+        else if (x == x->parent->right) {
+            x->parent->right = 0;
+        }
+
+        if (x == leftmost()) {
+            iterator it_x = iterator(x);
+            ++it_x;
+            leftmost() = (link_type)it_x->node;
+        }
+        else if (x == rightmost()) {
+            iterator it_x = iterator(x);
+            --it_x;
+            rightmost() = (link_type)it_x->node;
+        }
+
+        destroy_node(x);
+        return;
+    }
+
+    // x has one child, x is black and its child is red
+    // set its child as black and replace x with its child
+    if (x->left == __rb_tree_red) {
+        x->left->parent = x->parent;
+        if (x == x->parent->left) {
+            x->parent->left = x->left;
+        }
+        else if (x == x->parent->right) {
+            x->parent->right = x->left;
+        }
+        x->left = __rb_tree_black;
+
+        if (x == rightmost()) {
+            rightmost() = x->left;
+        }
+
+        destroy_node(x);
+        return;
+    }
+    if (x->right == __rb_tree_red) {
+        x->right->parent = x->parent;
+        if (x == x->parent->left) {
+            x->parent->left = x->right;
+        }
+        else if (x == x->parent->right) {
+            x->parent->right = x->right;
+        }
+        x->right = __rb_tree_black;
+
+        if (x == leftmost()) {
+            leftmost() = x->right;
+        }
+
+        destroy_node(x);
+        return;
+    }
+
+    // these are simple cases above in removal of red black tree
+    // below here are complex cases
+    // x is black
+
+    // first of all, erase x
+    if (x->left) {
+        x->left->parent = x->parent;
+        if (x == x->parent->left) {
+            x->parent->left = x->left;
+        }
+        else if (x == x->parent->right) {
+            x->parent->right = x->right;
+        }
+
+        if (x == rightmost()) {
+            rightmost() == x->left;
+        }
+
+        destroy_node(x);
+        x = x->left;
+    }
+    else if (x->right) {
+        x->right->parent = x->parent;
+        if (x == x->parent->left) {
+            x->parent->left = x->right;
+        }
+        else if (x == x->parent->right) {
+            x->parent->right = x->right;
+        }
+
+        if (x == leftmost()) {
+            leftmost() = x->right;
+        }
+
+        destroy_node(x);
+        x = x->right;
+    }
+
+    x->color = __rb_tree_black;
+    erase_case(x, root());
+} // void rb_tree<Key, Value, KeyOfValue, Compare, Alloc>::__erase(rb_tree<Key, Value, KeyOfValue, Compare, Alloc>::link_type x)
+
+template<class Key, class Value, class KeyOfValue, class Compare, class Alloc>
 typename rb_tree<Key, Value, KeyOfValue, Compare, Alloc>::iterator
 rb_tree<Key, Value, KeyOfValue, Compare, Alloc>::find(const Key &k) const {
     link_type y = header;

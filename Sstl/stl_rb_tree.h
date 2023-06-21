@@ -148,6 +148,74 @@ inline void __rb_tree_rebalance(__rb_tree_node_base *x, __rb_tree_node_base *&ro
     root->color = __rb_tree_black;
 } // inline void __rb_tree_rebalance(__rb_tree_node_base *x, __rb_tree_node_base *root)
 
+inline void erase_case(__rb_tree_node_base *x, __rb_tree_node_base *&root) {
+    // case 1: x == root
+    if (x == root) return;
+
+    __rb_tree_node_base *p = x->parent;
+    __rb_tree_node_base *s, *c, *d;
+
+    // get s, c and d in case of x == p->left or x == p->right
+    if (x == p->left) {
+        s = p->right;
+        c = s->left;
+        d = s->right;
+    }
+    else if (x == p->right) {
+        s = p->left;
+        c - s->right;
+        d = s->left;
+    }
+
+    // case 2: p, s, c and d are all black
+    if (p->color == __rb_tree_black && s->color == __rb_tree_black && c->color == __rb_tree_black && d->color == __rb_tree_black) {
+        s->color = __rb_tree_red;
+        erase_case(p, root);
+        return;
+    }
+    // case 3: s is red, p, c and d are black
+    else if (p->color == __rb_tree_black && s->color == __rb_tree_red && c->color == __rb_tree_black && d->color == __rb_tree_black) {
+        if (x == p->left)
+            __rb_tree_rotate_left(p, root);
+        else if (x == p->right)
+            __rb_tree_rotate_right(p, root);
+
+        p->color = __rb_tree_red;
+        s->color = __rb_tree_black;
+        erase_case(x, root);
+        return;
+    }
+    // case 4: p is red, s, c and d are black
+    else if (p->color == __rb_tree_red && s->color == __rb_tree_black && c->color == __rb_tree_black && d->color == __rb_tree_black) {
+        s->color = __rb_tree_red;
+        p->color = __rb_tree_black;
+        return;
+    }
+    // case 5: c is red, s and d are black
+    else if (s->color == __rb_tree_black && c->color == __rb_tree_red && d->color == __rb_tree_black) {
+        if (x == p->left)
+            __rb_tree_rotate_right(s, root);
+        else if (x == p->right)
+            __rb_tree_rotate_left(s, root);
+
+        s->color = __rb_tree_red;
+        c->color = __rb_tree_black;
+        erase_case(x, root);
+    }
+    // case 6: s is black, d is red
+    else if (s->color == __rb_tree_black && d->color == __rb_tree_red) {
+        if (x == p->left)
+            __rb_tree_rotate_left(p, root);
+        else if (x == p->right)
+            __rb_tree_rotate_right(p, root);
+
+        s->color = p->color;
+        p->color = __rb_tree_black;
+        d->color = __rb_tree_black;
+        return;
+    }
+} // inline void erase_case(__rb_tree_node_base *x, __rb_tree_node_base *&root)
+
 } // namespace Sstl
 
 // rb iterator

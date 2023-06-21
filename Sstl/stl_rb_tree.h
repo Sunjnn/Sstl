@@ -503,6 +503,18 @@ public:
     iterator erase(iterator first, iterator last);
     size_type erase(const Key_type &k);
 
+    void clear() {
+        iterator cur = begin();
+        iterator nex = cur;
+        ++nex;
+
+        while (cur != end()) {
+            destroy_node(cur->node);
+            cur = nex;
+            ++nex;
+        }
+    }
+
     iterator find(const Key_type &k) const;
     size_type count(const Key_type &k) const;
 }; // class rb_tree

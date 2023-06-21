@@ -499,6 +499,10 @@ public:
         }
     }
 
+    iterator erase(iterator position);
+    iterator erase(iterator first, iterator last);
+    size_type erase(const Key_type &k);
+
     iterator find(const Key_type &k) const;
     size_type count(const Key_type &k) const;
 }; // class rb_tree
@@ -711,6 +715,37 @@ void rb_tree<Key, Value, KeyOfValue, Compare, Alloc>::__erase(rb_tree<Key, Value
     x->color = __rb_tree_black;
     erase_case(x, root());
 } // void rb_tree<Key, Value, KeyOfValue, Compare, Alloc>::__erase(rb_tree<Key, Value, KeyOfValue, Compare, Alloc>::link_type x)
+
+template<class Key, class Value, class KeyOfValue, class Compare, class Alloc>
+typename rb_tree<Key, Value, KeyOfValue, Compare, Alloc>::iterator
+rb_tree<Key, Value, KeyOfValue, Compare, Alloc>::erase(iterator position) {
+    iterator res = position;
+    ++res;
+    erase(position->node);
+    return res;
+}
+
+template<class Key, class Value, class KeyOfValue, class Compare, class Alloc>
+typename rb_tree<Key, Value, KeyOfValue, Compare, Alloc>::iterator
+rb_tree<Key, Value, KeyOfValue, Compare, Alloc>::erase(iterator first, iterator last) {
+    while (first != last) {
+        erase(first++->node);
+    }
+    return last;
+}
+
+template<class Key, class Value, class KeyOfValue, class Compare, class Alloc>
+typename rb_tree<Key, Value, KeyOfValue, Compare, Alloc>::size_type
+rb_tree<Key, Value, KeyOfValue, Compare, Alloc>::erase(const Key_type &k) {
+    size_type res = 0;
+    iterator position = find(k);
+    while (position != end()) {
+        erase(position->node);
+        ++res;
+        position = find(k);
+    }
+    return res;
+}
 
 template<class Key, class Value, class KeyOfValue, class Compare, class Alloc>
 typename rb_tree<Key, Value, KeyOfValue, Compare, Alloc>::iterator

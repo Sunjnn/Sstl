@@ -509,7 +509,7 @@ public:
         ++nex;
 
         while (cur != end()) {
-            destroy_node(cur->node);
+            destroy_node((link_type)cur.node);
             cur = nex;
             ++nex;
         }
@@ -607,7 +607,7 @@ void rb_tree<Key, Value, KeyOfValue, Compare, Alloc>::__erase(rb_tree<Key, Value
     if (x->left && x->right) {
         iterator it_x = iterator(x);
         ++it_x;
-        link_type succ_x = it_x->node;
+        link_type succ_x = (link_type)it_x.node;
         x->value_field = succ_x->value_field;
         __erase(succ_x);
         return;
@@ -637,12 +637,12 @@ void rb_tree<Key, Value, KeyOfValue, Compare, Alloc>::__erase(rb_tree<Key, Value
         if (x == leftmost()) {
             iterator it_x = iterator(x);
             ++it_x;
-            leftmost() = (link_type)it_x->node;
+            leftmost() = (link_type)it_x.node;
         }
         else if (x == rightmost()) {
             iterator it_x = iterator(x);
             --it_x;
-            rightmost() = (link_type)it_x->node;
+            rightmost() = (link_type)it_x.node;
         }
 
         destroy_node(x);
@@ -662,7 +662,7 @@ void rb_tree<Key, Value, KeyOfValue, Compare, Alloc>::__erase(rb_tree<Key, Value
         x->left = __rb_tree_black;
 
         if (x == rightmost()) {
-            rightmost() = x->left;
+            rightmost() = (link_type)x->left;
         }
 
         destroy_node(x);
@@ -679,7 +679,7 @@ void rb_tree<Key, Value, KeyOfValue, Compare, Alloc>::__erase(rb_tree<Key, Value
         x->right = __rb_tree_black;
 
         if (x == leftmost()) {
-            leftmost() = x->right;
+            leftmost() = (link_type)x->right;
         }
 
         destroy_node(x);
@@ -705,7 +705,7 @@ void rb_tree<Key, Value, KeyOfValue, Compare, Alloc>::__erase(rb_tree<Key, Value
         }
 
         destroy_node(x);
-        x = x->left;
+        x = (link_type)x->left;
     }
     else if (x->right) {
         x->right->parent = x->parent;
@@ -717,11 +717,11 @@ void rb_tree<Key, Value, KeyOfValue, Compare, Alloc>::__erase(rb_tree<Key, Value
         }
 
         if (x == leftmost()) {
-            leftmost() = x->right;
+            leftmost() = (link_type)x->right;
         }
 
         destroy_node(x);
-        x = x->right;
+        x = (link_type)x->right;
     }
 
     x->color = __rb_tree_black;
@@ -733,7 +733,7 @@ typename rb_tree<Key, Value, KeyOfValue, Compare, Alloc>::iterator
 rb_tree<Key, Value, KeyOfValue, Compare, Alloc>::erase(iterator position) {
     iterator res = position;
     ++res;
-    erase(position->node);
+    __erase((link_type)position.node);
     return res;
 }
 
@@ -752,7 +752,7 @@ rb_tree<Key, Value, KeyOfValue, Compare, Alloc>::erase(const Key_type &k) {
     size_type res = 0;
     iterator position = find(k);
     while (position != end()) {
-        erase(position->node);
+        __erase((link_type)position.node);
         ++res;
         position = find(k);
     }
@@ -773,7 +773,7 @@ rb_tree<Key, Value, KeyOfValue, Compare, Alloc>::find(const Key &k) const {
     }
 
     iterator j = iterator(y);
-    returrn (j == end() || key_compare(k, key(j.node))) ? end() : j;
+    return (j == end() || key_compare(k, key((link_type)j.node))) ? end() : j;
 }
 
 template<class Key, class Value, class KeyOfValue, class Compare, class Alloc>

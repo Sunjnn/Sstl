@@ -725,7 +725,7 @@ void rb_tree<Key, Value, KeyOfValue, Compare, Alloc>::__erase(rb_tree<Key, Value
     }
 
     x->color = __rb_tree_black;
-    erase_case(x, root());
+    erase_case(x, header->parent);
 } // void rb_tree<Key, Value, KeyOfValue, Compare, Alloc>::__erase(rb_tree<Key, Value, KeyOfValue, Compare, Alloc>::link_type x)
 
 template<class Key, class Value, class KeyOfValue, class Compare, class Alloc>

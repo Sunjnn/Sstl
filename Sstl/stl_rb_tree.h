@@ -740,8 +740,12 @@ rb_tree<Key, Value, KeyOfValue, Compare, Alloc>::erase(iterator position) {
 template<class Key, class Value, class KeyOfValue, class Compare, class Alloc>
 typename rb_tree<Key, Value, KeyOfValue, Compare, Alloc>::iterator
 rb_tree<Key, Value, KeyOfValue, Compare, Alloc>::erase(iterator first, iterator last) {
+    iterator next = first;
+    ++next;
     while (first != last) {
-        erase(first++->node);
+        __erase((link_type)first.node);
+        first = next;
+        ++next;
     }
     return last;
 }

@@ -408,9 +408,9 @@ protected:
     Compare key_compare;
 
     // get pointer of root, the most left or the most right through header
-    link_type& root() const {return (link_type&)header->parent;}
-    link_type& leftmost() const {return (link_type&)header->left;}
-    link_type& rightmost() const {return (link_type&)header->right;}
+    link_type& root() {return (link_type&)header->parent;}
+    link_type& leftmost() {return (link_type&)header->left;}
+    link_type& rightmost() {return (link_type&)header->right;}
 
     // get pointer of a node's parent, left or right
     static link_type& parent(link_type x) {
@@ -515,8 +515,8 @@ public:
         }
     }
 
-    iterator find(const Key_type &k) const;
-    size_type count(const Key_type &k) const;
+    iterator find(const Key_type &k);
+    size_type count(const Key_type &k);
 }; // class rb_tree
 
 template<class Key, class Value, class KeyOfValue, class Compare, class Alloc>
@@ -765,7 +765,7 @@ rb_tree<Key, Value, KeyOfValue, Compare, Alloc>::erase(const Key_type &k) {
 
 template<class Key, class Value, class KeyOfValue, class Compare, class Alloc>
 typename rb_tree<Key, Value, KeyOfValue, Compare, Alloc>::iterator
-rb_tree<Key, Value, KeyOfValue, Compare, Alloc>::find(const Key &k) const {
+rb_tree<Key, Value, KeyOfValue, Compare, Alloc>::find(const Key &k) {
     link_type y = header;
     link_type x = root();
 
@@ -782,7 +782,7 @@ rb_tree<Key, Value, KeyOfValue, Compare, Alloc>::find(const Key &k) const {
 
 template<class Key, class Value, class KeyOfValue, class Compare, class Alloc>
 typename rb_tree<Key, Value, KeyOfValue, Compare, Alloc>::size_type
-rb_tree<Key, Value, KeyOfValue, Compare, Alloc>::count(const Key &k) const {
+rb_tree<Key, Value, KeyOfValue, Compare, Alloc>::count(const Key &k) {
     link_type y = header;
     link_type x = root();
 

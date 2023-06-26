@@ -651,7 +651,7 @@ void rb_tree<Key, Value, KeyOfValue, Compare, Alloc>::__erase(rb_tree<Key, Value
 
     // x has one child, x is black and its child is red
     // set its child as black and replace x with its child
-    if (x->left == __rb_tree_red) {
+    if (x->left->color == __rb_tree_red) {
         x->left->parent = x->parent;
         if (x == x->parent->left) {
             x->parent->left = x->left;
@@ -659,7 +659,7 @@ void rb_tree<Key, Value, KeyOfValue, Compare, Alloc>::__erase(rb_tree<Key, Value
         else if (x == x->parent->right) {
             x->parent->right = x->left;
         }
-        x->left = __rb_tree_black;
+        x->left->color = __rb_tree_black;
 
         if (x == rightmost()) {
             rightmost() = (link_type)x->left;
@@ -668,7 +668,7 @@ void rb_tree<Key, Value, KeyOfValue, Compare, Alloc>::__erase(rb_tree<Key, Value
         destroy_node(x);
         return;
     }
-    if (x->right == __rb_tree_red) {
+    if (x->right->color == __rb_tree_red) {
         x->right->parent = x->parent;
         if (x == x->parent->left) {
             x->parent->left = x->right;
@@ -676,7 +676,7 @@ void rb_tree<Key, Value, KeyOfValue, Compare, Alloc>::__erase(rb_tree<Key, Value
         else if (x == x->parent->right) {
             x->parent->right = x->right;
         }
-        x->right = __rb_tree_black;
+        x->right->color = __rb_tree_black;
 
         if (x == leftmost()) {
             leftmost() = (link_type)x->right;

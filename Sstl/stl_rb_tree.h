@@ -782,6 +782,7 @@ rb_tree<Key, Value, KeyOfValue, Compare, Alloc>::erase(const Key_type &k) {
     while (position != end()) {
         __erase((link_type)position.node);
         ++res;
+        --node_count;
         position = find(k);
     }
     return res;

@@ -110,10 +110,10 @@ inline void __rb_tree_rotate_right(__rb_tree_node_base *x, __rb_tree_node_base *
 
 inline void __rb_tree_rebalance(__rb_tree_node_base *x, __rb_tree_node_base *&root) {
     x->color = __rb_tree_red;
-    while (x != root && x->parent->color == __rb_tree_red) {
+    while (x != root && isRed(x->parent)) {
         if (x->parent == x->parent->parent->left) {
             __rb_tree_node_base *y = x->parent->parent->right;
-            if (y && y->color == __rb_tree_red) {
+            if (y && isRed(y)) {
             // G is black and its children (P and S) are red
             // change color of G P S
                 x->parent->color = __rb_tree_black;
@@ -136,7 +136,7 @@ inline void __rb_tree_rebalance(__rb_tree_node_base *x, __rb_tree_node_base *&ro
         }
         else { // reverse condition of above branch
             __rb_tree_node_base *y = x->parent->parent->left;
-            if (y && y->color == __rb_tree_red) {
+            if (y && isRed(y)) {
                 x->parent->color = __rb_tree_black;
                 y->color = __rb_tree_black;
                 x->parent->parent->color = __rb_tree_red;
@@ -176,13 +176,13 @@ inline void erase_case(__rb_tree_node_base *x, __rb_tree_node_base *&root) {
     }
 
     // case 2: p, s, c and d are all black
-    if (p->color == __rb_tree_black && s->color == __rb_tree_black && c->color == __rb_tree_black && d->color == __rb_tree_black) {
+    if (isBlack(p) && isBlack(s) && isBlack(c) && isBlack(d)) {
         s->color = __rb_tree_red;
         erase_case(p, root);
         return;
     }
     // case 3: s is red, p, c and d are black
-    else if (p->color == __rb_tree_black && s->color == __rb_tree_red && c->color == __rb_tree_black && d->color == __rb_tree_black) {
+    else if (isBlack(p) && isRed(s) && isBlack(c) && isRed(d)) {
         if (x == p->left)
             __rb_tree_rotate_left(p, root);
         else if (x == p->right)
@@ -194,13 +194,13 @@ inline void erase_case(__rb_tree_node_base *x, __rb_tree_node_base *&root) {
         return;
     }
     // case 4: p is red, s, c and d are black
-    else if (p->color == __rb_tree_red && s->color == __rb_tree_black && c->color == __rb_tree_black && d->color == __rb_tree_black) {
+    else if (isRed(p) && isBlack(s) && isBlack(c) && isBlack(d)) {
         s->color = __rb_tree_red;
         p->color = __rb_tree_black;
         return;
     }
     // case 5: c is red, s and d are black
-    else if (s->color == __rb_tree_black && c->color == __rb_tree_red && d->color == __rb_tree_black) {
+    else if (isBlack(s) && isRed(c) && isBlack(d)) {
         if (x == p->left)
             __rb_tree_rotate_right(s, root);
         else if (x == p->right)
@@ -211,7 +211,7 @@ inline void erase_case(__rb_tree_node_base *x, __rb_tree_node_base *&root) {
         erase_case(x, root);
     }
     // case 6: s is black, d is red
-    else if (s->color == __rb_tree_black && d->color == __rb_tree_red) {
+    else if (isBlack(s) && isRed(d)) {
         if (x == p->left)
             __rb_tree_rotate_left(p, root);
         else if (x == p->right)
@@ -279,7 +279,7 @@ struct __rb_tree_base_iterator {
     //      get parent iteratively
     //
     void decrement() {
-        if (node->color == __rb_tree_red && node->parent->parent == node) {
+        if (isRed(node) && node->parent->parent == node) {
         // node is header
             node = node->right;
         }
@@ -634,7 +634,7 @@ void rb_tree<Key, Value, KeyOfValue, Compare, Alloc>::__erase(rb_tree<Key, Value
 
     // x has no children and x is red
     // erase x
-    if (x->color == __rb_tree_red && !x->left) {
+    if (isRed(x) && !x->left) {
         if (x == x->parent->left) {
             x->parent->left = 0;
         }
@@ -659,7 +659,7 @@ void rb_tree<Key, Value, KeyOfValue, Compare, Alloc>::__erase(rb_tree<Key, Value
 
     // x has one child, x is black and its child is red
     // set its child as black and replace x with its child
-    if (x->left && x->left->color == __rb_tree_red) {
+    if (x->left && isRed(x->left)) {
         x->left->parent = x->parent;
         if (x == x->parent->left) {
             x->parent->left = x->left;
@@ -676,7 +676,7 @@ void rb_tree<Key, Value, KeyOfValue, Compare, Alloc>::__erase(rb_tree<Key, Value
         destroy_node(x);
         return;
     }
-    if (x->right && x->right->color == __rb_tree_red) {
+    if (x->right && isRed(x->right)) {
         x->right->parent = x->parent;
         if (x == x->parent->left) {
             x->parent->left = x->right;

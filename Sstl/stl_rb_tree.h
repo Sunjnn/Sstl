@@ -698,8 +698,11 @@ void rb_tree<Key, Value, KeyOfValue, Compare, Alloc>::__erase(rb_tree<Key, Value
     // below here are complex cases
     // x is black
 
+    erase_case(x, (base_ptr&)root());
+
     // first of all, erase x
     if (x->left) {
+        x->left->color = __rb_tree_black;
         x->left->parent = x->parent;
         if (x == x->parent->left) {
             x->parent->left = x->left;
@@ -713,9 +716,9 @@ void rb_tree<Key, Value, KeyOfValue, Compare, Alloc>::__erase(rb_tree<Key, Value
         }
 
         destroy_node(x);
-        x = (link_type)x->left;
     }
     else if (x->right) {
+        x->right->color = __rb_tree_black;
         x->right->parent = x->parent;
         if (x == x->parent->left) {
             x->parent->left = x->right;
@@ -729,11 +732,24 @@ void rb_tree<Key, Value, KeyOfValue, Compare, Alloc>::__erase(rb_tree<Key, Value
         }
 
         destroy_node(x);
-        x = (link_type)x->right;
     }
+    else {
+        if (x == x->parent->left) {
+            x->parent->left = x->left;
+        }
+        else if (x == x->parent->right) {
+            x->parent->right = x->right;
+        }
 
-    x->color = __rb_tree_black;
-    erase_case(x, header->parent);
+        if (x == leftmost()) {
+            leftmost() = (link_type)x->parent;
+        }
+        if (x == rightmost()) {
+            rightmost() = (link_type)x->parent;
+        }
+
+        destroy_node(x);
+    }
 } // void rb_tree<Key, Value, KeyOfValue, Compare, Alloc>::__erase(rb_tree<Key, Value, KeyOfValue, Compare, Alloc>::link_type x)
 
 template<class Key, class Value, class KeyOfValue, class Compare, class Alloc>

@@ -37,6 +37,14 @@ struct __rb_tree_node_base {
     }
 };
 
+inline bool isBlack(__rb_tree_node_base *x) {
+    return !x || x->color == __rb_tree_black;
+}
+
+inline bool isRed(__rb_tree_node_base *x) {
+    return !isBlack(x);
+}
+
 template<class Value>
 struct __rb_tree_node : public __rb_tree_node_base {
     typedef __rb_tree_node<Value>* link_type;

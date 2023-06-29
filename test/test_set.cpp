@@ -18,9 +18,15 @@ class testSet : public testBase {
         iset.insert(5);
         assert(iset.size() == 6);
         assert(iset.count(3) == 1);
-        // iset.erase(1);
-        assert(iset.size() == 6);
+        iset.erase(1);
+        assert(iset.size() == 5);
         assert(iset.count(3) == 1);
+        assert(iset.count(1) == 0);
+
+        auto it1 = iset.find(3);
+        assert(it1 != iset.end());
+        auto it2 = iset.find(1);
+        assert(it2 == iset.end());
     }
 
 public:

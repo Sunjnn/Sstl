@@ -61,15 +61,15 @@ public:
         return *this;
     }
 
-    key_compare key_comp() const {return t.key_comp();}
-    value_compare value_comp() const {return t.key_comp();}
-    iterator begin() const {return t.begin();}
-    iterator end() const {return t.end();}
+    key_compare key_comp() {return t.key_comp();}
+    value_compare value_comp() {return t.key_comp();}
+    iterator begin() {return t.begin();}
+    iterator end() {return t.end();}
     // reverse_iterator rbegin() const {return t.rbegin();}
     // reverse_iterator rend() const {return t.rend();}
-    bool empty() const {return t.empty();}
-    size_type size() const {return t.size();}
-    size_type max_size() const {return t.max_size();}
+    bool empty() {return t.empty();}
+    size_type size() {return t.size();}
+    size_type max_size() {return t.max_size();}
     void swap(set<Key, Compare, Alloc> &x) {t.swap(x.t);}
 
     typedef std::pair<iterator, bool> pair_iterator_bool;
@@ -98,15 +98,15 @@ public:
     }
     void clear() {t.clear();}
 
-    iterator find(const key_type &x) const {return t.find(x);}
-    size_type count(const key_type &x) const {return t.count(x);}
-    iterator lower_bound(const key_type &x) const {
+    iterator find(const key_type &x) {return t.find(x);}
+    size_type count(const key_type &x) {return t.count(x);}
+    iterator lower_bound(const key_type &x) {
         return t.lower_bound(x);
     }
-    iterator upper_bound(const key_type &x) const {
+    iterator upper_bound(const key_type &x) {
         return t.upper_bound(x);
     }
-    std::pair<iterator, iterator> equal_range(const key_type &x) const {
+    std::pair<iterator, iterator> equal_range(const key_type &x) {
         return t.equal_range(x);
     }
     friend bool operator==(const set&, const set&);

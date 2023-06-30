@@ -18,7 +18,7 @@ public:
     typedef pair<const Key, T>  value_type;
     typedef Compare             key_compare;
 
-    class value_compare : public binary_function<value_type, value_type, bool> {
+    class value_compare : public std::binary_function<value_type, value_type, bool> {
         friend class map<Key, T, Compare, Alloc>;
         protected:
             Compare comp;

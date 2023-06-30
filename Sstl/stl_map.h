@@ -37,12 +37,12 @@ public:
     typedef typename rep_type::pointer                  pointer;
     typedef typename rep_type::const_pointer            const_pointer;
     typedef typename rep_type::reference                reference;
-    typedef typename rep_type::const_reference          const_reference;
+    // typedef typename rep_type::const_reference          const_reference;
     // map could revalue iterator->second
     typedef typename rep_type::iterator                 iterator;
-    typedef typename rep_type::const_iterator           const_iterator;
-    typedef typename rep_type::reverse_iterator         reverse_iterator;
-    typedef typename rep_type::const_reverse_iterator   const_reverse_iterator;
+    // typedef typename rep_type::const_iterator           const_iterator;
+    // typedef typename rep_type::reverse_iterator         reverse_iterator;
+    // typedef typename rep_type::const_reverse_iterator   const_reverse_iterator;
     typedef typename rep_type::size_type                size_type;
     typedef typename rep_type::difference_type          difference_type;
 
@@ -62,19 +62,19 @@ public:
         return *this;
     }
 
-    key_compare key_comp() const {return t.key_comp();}
-    value_compare value_comp() const {return value_compare(t.key_comp());}
+    key_compare key_comp() {return t.key_comp();}
+    value_compare value_comp() {return value_compare(t.key_comp());}
     iterator begin() {return t.begin();}
-    const_iterator begin() const {return t.begin();}
+    // const_iterator begin() {return t.begin();}
     iterator end() {return t.end();}
-    const_iterator end() const {return t.end();}
-    reverse_iterator rbegin() {return t.rbegin();}
-    const_reverse_iterator rbegin() const {return t.rbegin();}
-    reverse_iterator rend() {return t.rend();}
-    const_reverse_iterator rend() const {return t.rend();}
-    bool empty() const {return t.empty();}
-    size_type size() const {return t.size();}
-    size_type max_size() const {return t.max_size();}
+    // const_iterator end() {return t.end();}
+    // reverse_iterator rbegin() {return t.rbegin();}
+    // const_reverse_iterator rbegin() {return t.rbegin();}
+    // reverse_iterator rend() {return t.rend();}
+    // const_reverse_iterator rend() {return t.rend();}
+    bool empty() {return t.empty();}
+    size_type size() {return t.size();}
+    size_type max_size() {return t.max_size();}
 
     T& operator[](const key_type &k) {
         return (*((insert(value_type(k, T()))).first)).second;
@@ -98,15 +98,15 @@ public:
     void clear() {t.clear();}
 
     iterator find(const key_type &x) {return t.find(x);}
-    const_iterator find(const key_type &x) const {return t.find(x);}
-    size_type count(const key_type &x) const {return t.count(x);}
+    // const_iterator find(const key_type &x) const {return t.find(x);}
+    size_type count(const key_type &x) {return t.count(x);}
     iterator lower_bound(const key_type &x) {return t.lower_bound(x);}
-    const_iterator lower_bound(const key_type &x) const {return t.lower_bound(x);}
+    // const_iterator lower_bound(const key_type &x) const {return t.lower_bound(x);}
     iterator upper_bound(const key_type &x) {return t.upper_bound(x);}
-    const_iterator upper_bound(const key_type &x) const {return t.upper_bound(x);}
+    // const_iterator upper_bound(const key_type &x) const {return t.upper_bound(x);}
 
     pair<iterator, iterator> equal_range(const key_type &x) {return t.equal_range(x);}
-    pair<const_iterator, const_iterator> equal_range(const key_type &x) const {return t.equal_range(x);}
+    // pair<const_iterator, const_iterator> equal_range(const key_type &x) const {return t.equal_range(x);}
 
     template<class Key1, class T1, class Compare1, class Alloc1>
     friend bool operator==(const map<Key1, T1, Compare1, Alloc1>&, const map<Key1, T1, Compare1, Alloc1>&);

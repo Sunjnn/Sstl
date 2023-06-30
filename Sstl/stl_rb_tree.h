@@ -5,10 +5,10 @@
 #include "stl_iterator.h"
 #include "stl_alloc.h"
 #include "stl_construct.h"
+#include "stl_pair.h"
 
 // gcc implementation
 #include <cstddef>
-#include <map>
 
 // rb tree node
 namespace Sstl {
@@ -494,7 +494,7 @@ public:
 
     // insert a node
     // node is unique in the tree
-    std::pair<iterator, bool> insert_unique(const Value_type &x);
+    pair<iterator, bool> insert_unique(const Value_type &x);
     // several node can have same key
     iterator insert_equal(const Value_type& x);
 
@@ -540,7 +540,7 @@ rb_tree<Key, Value, KeyOfValue, Compare, Alloc>::insert_equal(const Value &v) {
 }
 
 template<class Key, class Value, class KeyOfValue, class Compare, class Alloc>
-std::pair<typename rb_tree<Key, Value, KeyOfValue, Compare, Alloc>::iterator, bool>
+pair<typename rb_tree<Key, Value, KeyOfValue, Compare, Alloc>::iterator, bool>
 rb_tree<Key, Value, KeyOfValue, Compare, Alloc>::insert_unique(const Value &v) {
     link_type y = header;
     link_type x = root();
@@ -560,7 +560,7 @@ rb_tree<Key, Value, KeyOfValue, Compare, Alloc>::insert_unique(const Value &v) {
         // if y is the most left, insert
         // else test v and y->left
         if (j == begin()) 
-            return std::pair<iterator, bool>(__insert(x, y, v), true);
+            return pair<iterator, bool>(__insert(x, y, v), true);
         else
             --j;
     }
@@ -568,9 +568,9 @@ rb_tree<Key, Value, KeyOfValue, Compare, Alloc>::insert_unique(const Value &v) {
     // if decrement(y) < v, insert
     // otherwise, duplicate v
     if (key_compare(key(link_type(j.node)), KeyOfValue()(v)))
-        return std::pair<iterator, bool>(__insert(x, y, v), true);
+        return pair<iterator, bool>(__insert(x, y, v), true);
 
-    return std::pair<iterator, bool>(j, false);
+    return pair<iterator, bool>(j, false);
 }
 
 template<class Key, class Value, class KeyOfValue, class Compare, class Alloc>

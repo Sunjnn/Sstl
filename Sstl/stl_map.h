@@ -107,8 +107,12 @@ public:
 
     pair<iterator, iterator> equal_range(const key_type &x) {return t.equal_range(x);}
     pair<const_iterator, const_iterator> equal_range(const key_type &x) const {return t.equal_range(x);}
-    friend bool operator==(const map&, const map&);
-    friend bool operator<(const map&, const map&);
+
+    template<class Key1, class T1, class Compare1, class Alloc1>
+    friend bool operator==(const map<Key1, T1, Compare1, Alloc1>&, const map<Key1, T1, Compare1, Alloc1>&);
+
+    template<class Key1, class T1, class Compare1, class Alloc1>
+    friend bool operator<(const map<Key1, T1, Compare1, Alloc1>&, const map<Key1, T1, Compare1, Alloc1>&);
 }; // class map
 
 template<class Key, class T, class Compare, class Alloc>

@@ -54,7 +54,7 @@ public:
     map(InputIterator first, InputIterator last) : t(Compare()) {t.insert_unique(first, last);}
 
     template<class InputIterator>
-    map(InputIterator first, InputIterator second, const Compare &comp) : t(comp) {t.insert_unique(first, last);}
+    map(InputIterator first, InputIterator last, const Compare &comp) : t(comp) {t.insert_unique(first, last);}
 
     map(const map &x) : t(x.t){}
     map& operator=(const map &x) {
@@ -121,7 +121,7 @@ inline bool operator==(const map<Key, T, Compare, Alloc> &x, const map<Key, T, C
 }
 
 template<class Key, class T, class Compare, class Alloc>
-inline bool operator==(const map<Key, T, Compare, Alloc> &x, const map<Key, T, Compare, Alloc> &y) {
+inline bool operator<(const map<Key, T, Compare, Alloc> &x, const map<Key, T, Compare, Alloc> &y) {
     return x.t < y.t;
 }
 

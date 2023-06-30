@@ -22,7 +22,7 @@ namespace Sstl {
 template<class pair>
 class select1st {
 public:
-    const pair::first_type operator()(const pair &x) {
+    const typename pair::first_type &operator()(const pair &x) {
         return x.first;
     }
 };

@@ -119,6 +119,36 @@ public:
     void resize(size_type new_size) {resize(new_size, T());}
     void clear() {erase(start, finish);}
 
+    void reserve(size_type new_size) {
+        if (new_size <= capacity()) return;
+
+        iterator new_start = data_allocator::allocate(new_size);
+        iterator new_finish = new_start;
+        new_finish = uninitialized_copy(start, finish, new_start);
+
+        destroy(start, finish);
+        deallocate();
+        start = new_start;
+        finish = new_finish;
+        end_of_storage = new_start + new_size;
+    }
+
+    void swap(vector &tmp) {
+        if (&tmp == this) return;
+
+        iterator tmpIt = start;
+        start = tmp.start;
+        tmp.start = tmpIt;
+
+        tmpIt = finish;
+        finish = tmp.finish;
+        tmp.finish = tmpIt;
+
+        tmpIt = end_of_storage;
+        end_of_storage = tmp.end_of_storage;
+        tmp.finish = tmpIt;
+    }
+
 protected:
     iterator allocate_and_fill(size_type n, const T &x) {
         iterator result = data_allocator::allocate(n);

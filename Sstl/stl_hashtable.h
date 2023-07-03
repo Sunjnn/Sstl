@@ -188,6 +188,24 @@ public:
         }
         return res;
     }
+
+    iterator find(const key_type &key) {
+        size_type n = bkt_num_key(key);
+        node *first;
+        for (first = buckets[n]; first && !equals(get_key(first->val), key); first = first->next) {}
+        return iterator(first, this);
+    }
+
+    size_type count(const key_type &key) {
+        const size_type n = bkt_num_key(key);
+        size_type res = 0;
+
+        for (const node *cur = buckets[n]; cur; cur = cur->next)
+            if (equals(get_key(cur->val), key))
+                ++res;
+        return res;
+    }
+
     void clear();
 }; // class hashtable
 

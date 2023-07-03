@@ -156,6 +156,16 @@ public:
         initialize_buckers(n);
     }
 
+    iterator begin() {
+        for (size_type bucket = 0; bucket < bucket_count(); ++bucket) {
+            node *first = buckets[bucket];
+            if (first) return iterator(first, this);
+        }
+    }
+    iterator end() {
+        return iterator(nullptr, this);
+    }
+
     pair<iterator, bool> insert_unique(const value_type &obj) {
         resize(num_elements + 1);
         return insert_unique_noresize(obj);
@@ -168,6 +178,7 @@ public:
 
     void copy_from(const hashtable &ht);
 
+    size_type size() {return num_elements;}
     void clear();
 }; // class hashtable
 

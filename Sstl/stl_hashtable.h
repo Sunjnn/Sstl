@@ -68,7 +68,7 @@ __hashtable_iterator<Value, Key, HashFcn, ExtractKey, EqualKey, Alloc>::operator
     cur = cur->next;
     if (!cur) {
         size_type bucket = ht->bkt_num(old->val);
-        while (!cur && ++bucket < ht->bucket.size()) {
+        while (!cur && ++bucket < ht->bucket_count()) {
             cur = ht->buckets[bucket];
         }
     }
@@ -112,7 +112,7 @@ public:
     }
 
 private:
-    node* new_node(const value_type *obj) {
+    node* new_node(const value_type &obj) {
         node * n = node_allocator::allocate();
         n->next = 0;
         construct(&n->val, obj);
@@ -141,7 +141,7 @@ private:
         return hash(key) % n;
     }
     size_type bkt_num_key(const key_type &key) {
-        return bkt_num_key(key, buckets.size());
+        return bkt_num_key(key, bucket_count());
     }
 
     size_type bkt_num(const value_type &obj, size_t n) {
@@ -173,7 +173,7 @@ public:
 
 template<class Value, class Key, class HashFcn, class ExtractKey, class EqualKey, class Alloc>
 void hashtable<Value, Key, HashFcn, ExtractKey, EqualKey, Alloc>::resize(size_type num_elements_hints) {
-    const size_type old_n = buckets.size();
+    const size_type old_n = bucket_count();
     if (num_elements_hints > old_n) {
         const size_type n = next_size(num_elements_hints);
         if (n > old_n) {
@@ -238,10 +238,10 @@ hashtable<Value, Key, HashFcn, ExtractKey, EqualKey, Alloc>::insert_equal_noresi
 template<class Value, class Key, class HashFcn, class ExtractKey, class EqualKey, class Alloc>
 void hashtable<Value, Key, HashFcn, ExtractKey, EqualKey, Alloc>::copy_from(const hashtable &ht) {
     buckets.clear();
-    buckets.reserve(ht.buckets.size());
-    buckets.inseert(buckets.end(), ht.buckets.size(), (node*)0);
+    buckets.reserve(ht.bucket_count());
+    buckets.inseert(buckets.end(), ht.bucket_count(), (node*)0);
 
-    for (size_type i = 0; i < ht.buckets.size(); ++i) {
+    for (size_type i = 0; i < ht.bucket_count(); ++i) {
         if (const node* cur = ht.buckets[i]) {
             node *copy = new_node(cur->val);
             buckets[i] = copy;
@@ -257,7 +257,7 @@ void hashtable<Value, Key, HashFcn, ExtractKey, EqualKey, Alloc>::copy_from(cons
 
 template<class Value, class Key, class HashFcn, class ExtractKey, class EqualKey, class Alloc>
 void hashtable<Value, Key, HashFcn, ExtractKey, EqualKey, Alloc>::clear() {
-    for (size_type i = 0; i < buckets.size(); ++i) {
+    for (size_type i = 0; i < bucket_count(); ++i) {
         node *cur = buckets[i];
         while (!cur) {
             node *next = cur->next;

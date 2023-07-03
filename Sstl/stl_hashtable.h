@@ -179,6 +179,15 @@ public:
     void copy_from(const hashtable &ht);
 
     size_type size() {return num_elements;}
+    size_type elems_in_bucket(size_type bucket) {
+        size_type res = 0;
+        node *first = buckets[bucket];
+        while (first) {
+            ++res;
+            first = first->next;
+        }
+        return res;
+    }
     void clear();
 }; // class hashtable
 

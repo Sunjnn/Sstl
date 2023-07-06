@@ -91,6 +91,9 @@ public:
     typedef size_t      size_type;
     typedef Key         key_type;
     typedef Value       value_type;
+    typedef ptrdiff_t   difference_type;
+    typedef Value*      pointer;
+    typedef Value&      reference;
     typedef __hashtable_iterator<Value, Key, HashFcn, ExtractKey, EqualKey, Alloc> iterator;
     friend class __hashtable_iterator<Value, Key, HashFcn, ExtractKey, EqualKey, Alloc>;
 

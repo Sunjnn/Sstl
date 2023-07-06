@@ -40,7 +40,7 @@ public:
     hash_set() : rep(100, hasher(), key_equal()) {}
     explicit hash_set(size_type n) : rep(n, hasher(), key_equal()) {}
     hash_set(size_type n, const hasher &hf) : rep(n, hf, key_equal()) {}
-    hash_set(size_type n, const hasher &ht, const key_equal &eql) : rep(n, hf, eql) {}
+    hash_set(size_type n, const hasher &hf, const key_equal &eql) : rep(n, hf, eql) {}
 
     template<class InputIterator>
     hash_set(InputIterator f, InputIterator l) : rep(100, hasher(), key_equal()) {rep.insert_unique(f, l);}

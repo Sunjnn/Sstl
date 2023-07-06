@@ -6,6 +6,8 @@
 #include "stl_hashtable.h"
 #include "stl_pair.h"
 
+#include <functional>
+
 template<class T>
 struct identity {
     const T& operator()(const T& x) const {return x;}
@@ -13,7 +15,7 @@ struct identity {
 
 namespace Sstl {
 
-template<class Value, class HashFcn = hash<Value>, class EqualKey = equal_to<Value>, class Alloc = alloc>
+template<class Value, class HashFcn = hash<Value>, class EqualKey = std::equal_to<Value>, class Alloc = alloc>
 class hash_set {
 private:
     typedef hashtable<Value, Value, HashFcn, identity<Value>, EqualKey, Alloc> ht;
@@ -88,7 +90,7 @@ public:
     size_type elems_in_bucket(size_type n) {return rep.elems_in_bucket(n);}
 }; // hash_set
 
-template<class Value, class HashFcn = hash<Value>, class EqualKey = equal_to<Value>, class Alloc = alloc>
+template<class Value, class HashFcn = hash<Value>, class EqualKey = std::equal_to<Value>, class Alloc = alloc>
 inline bool operator==(const hash_set<Value, HashFcn, EqualKey, Alloc> &hs1, const hash_set<Value, HashFcn, EqualKey, Alloc> &hs2) {
     return hs1.rep == hs2.rep;
 }

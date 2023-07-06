@@ -199,6 +199,11 @@ public:
         return iterator(first, this);
     }
 
+    value_type& find_or_insert(const value_type& obj) {
+        auto it_bool = insert_unique(obj);
+        return *(it_bool.first);
+    }
+
     size_type count(const key_type &key) {
         const size_type n = bkt_num_key(key);
         size_type res = 0;

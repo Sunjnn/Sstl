@@ -172,4 +172,14 @@ T power(T x, Integer n, MonoidOperation op) {
 
 } // namespace Sstl power
 
+// itoa
+namespace Sstl {
+
+template<class ForwardIterator, class T>
+void itoa(ForwardIterator first, ForwardIterator last, T value) {
+    while (first != last) *first++ = value++;
+}
+
+} // namespace Sstl itoa
+
 #endif

@@ -95,4 +95,49 @@ T inner_product(InputIterator1 first1, InputIterator1 last1,
 
 } // namespace Sstl inner product
 
+// partial sum
+namespace Sstl {
+
+// first version of two of partial sum
+template<class InputIterator, class OutputIterator>
+OutputIterator partial_sum(InputIterator first, InputIterator last, OutputIterator result) {
+    template<class InputIterator, class OutputIterator, class T>
+    OutputIterator __partial_sum(InputIterator first, InputIterator last, OutputIterator result, T*);
+    if (first == last) return result;
+    *result = *first;
+    return __partial_sum(first, last, result, value_type(first));
+}
+
+// second version of two of partial sum
+template<class InputIterator, class OutputIterator, class BinaryOperation>
+OutputIterator partial_sum(InputIterator first, InputIterator last, OutputIterator result, BinaryOperation binary_op) {
+    template<class InputIterator, class OutputIterator, class T, class BinaryOperation>
+    OutputIterator __partial_sum(InputIterator first, InputIterator last, OutputIterator result, T*, BinaryOperation binary_op);
+    if (first == last) return result;
+    *result = *first;
+    return __partial_sum(first, last, result, value_type(first), binary_op);
+}
+
+template<class InputIterator, class OutputIterator, class T>
+OutputIterator __partial_sum(InputIterator first, InputIterator last, OutputIterator result, T*) {
+    T value = *first;
+    while (++first != last) {
+        value += *first;
+        *++result = value;
+    }
+    return ++result;
+}
+
+template<class InputIterator, class OutputIterator, class T, class BinaryOperation>
+OutputIterator __partial_sum(InputIterator first, InputIterator last, OutputIterator result, T*, BinaryOperation binary_op) {
+    T value = *first;
+    while (++first != last) {
+        value = binary_op(value, *first);
+        *++result = value;
+    }
+    return ++result;
+}
+
+} // namespace Sstl partial sum
+
 #endif

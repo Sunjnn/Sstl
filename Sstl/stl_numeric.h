@@ -140,4 +140,36 @@ OutputIterator __partial_sum(InputIterator first, InputIterator last, OutputIter
 
 } // namespace Sstl partial sum
 
+// power
+namespace Sstl {
+
+template<class T, class Integer>
+inline T power(T x, Integer n) {
+    return power(x, n, multiplies<T>());
+}
+
+template<class T, class Integer, class MonoidOperation>
+T power(T x, Integer n, MonoidOperation op) {
+    if (n == 0)
+        return identity_element(op);
+    else {
+        while ((n & 1) == 0) {
+            n >>= 1;
+            x = op(x, x);
+        }
+
+        T result = x;
+        n >>= 1;
+        while (n != 0) {
+            x = op(x, x);
+            if ((n & 1) != 0)
+                result = op(result, x);
+            n >>= 1;
+        }
+        return result;
+    }
+}
+
+} // namespace Sstl power
+
 #endif

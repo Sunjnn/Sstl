@@ -24,4 +24,24 @@ inline bool equal(InputIterator1 first1, InputIterator1 last1, InputIterator2 fi
 
 } // namepace equal
 
+// fill and fill_n
+namespace Sstl {
+
+// the only one version of fill
+template<class ForwardIterator, class T>
+void fill(ForwardIterator first, ForwardIterator last, const T& value) {
+    for (; first != last; ++first)
+        *first = value;
+}
+
+// the only one version fo fill_n
+template<class ForwardIterator, class Size, class T>
+void fill(ForwardIterator first, Size n, const T& value) {
+    for (; n > 0; --n, ++first)
+        *first = value;
+    return first;
+}
+
+} // namespace fill and fill_n
+
 #endif

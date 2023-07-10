@@ -44,4 +44,24 @@ void fill(ForwardIterator first, Size n, const T& value) {
 
 } // namespace fill and fill_n
 
+// iter swap
+namespace Sstl {
+
+// the only one version of iter swap
+template<class ForwardIterator1, class ForwardIterator2>
+inline void iter_swap(ForwardIterator1 a, ForwardIterator2 b) {
+    template<class ForwardIterator1, class ForwardIterator2, class T>
+    inline void __iter_swap(ForwardIterator1 a, ForwardIterator2 b, T*);
+    __iter_swap(a, b, value_type(a));
+}
+
+template<class ForwardIterator1, class ForwardIterator2, class T>
+inline void __iter_swap(ForwardIterator1 a, ForwardIterator2 b, T*) {
+    T tmp = *a;
+    *a = *b;
+    *b = tmp;
+}
+
+} // namespace iter swap
+
 #endif

@@ -1,6 +1,9 @@
 #ifndef __STL_ALGOBASE_H__
 #define __STL_ALGOBASE_H__
 
+#include <cstddef>
+#include <cstring>
+
 // equal
 namespace Sstl {
 
@@ -63,5 +66,48 @@ inline void __iter_swap(ForwardIterator1 a, ForwardIterator2 b, T*) {
 }
 
 } // namespace iter swap
+
+// lexicographical compare
+namespace Sstl {
+
+// first version of three of lexicographical compare
+template<class InputIterator1, class InputIterator2>
+bool lexicographical_compare(InputIterator1 first1, InputIterator1 last1,
+                             InputIterator2 first2, InputIterator2 last2) {
+    for (; first1 != last1 && first2 != last2; ++first1, ++first2) {
+        if (*first1 < *first2)
+            return true;
+        else if (*first2 < *first1)
+            return false;
+    }
+    return first1 == last1 && first2 != last2;
+}
+
+// second version of three lexicographical compare
+template<class InputIterator1, class InputIterator2, class Compare>
+bool lexicographical_compare(InputIterator1 first1, InputIterator1 last1,
+                             InputIterator2 first2, InputIterator2 last2,
+                             Compare comp) {
+    for (; first1 != last1 && first2 != last2; ++first1, ++first2) {
+        if (comp(*first1, *first2))
+            return true;
+        else if (comp(*first2, *first1))
+            return false;
+    }
+    return first1 == last1 && first2 != last2;
+}
+
+// third version of three lexicographical compare
+inline bool lexicographical_compare(const unsigned char* first1, const unsigned char* last1,
+                                    const unsigned char* first2, const unsigned char* last2) {
+    const size_t len1 = last1 - first1;
+    const size_t len2 = last2 - first2;
+
+    const int result = memcmp(first1, first2, min(len1, len2));
+
+    return result != 0 ? result < 0 : len1 < len2;
+}
+
+} // namespace Sstl lexicographical compare
 
 #endif

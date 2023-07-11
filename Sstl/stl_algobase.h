@@ -1,6 +1,8 @@
 #ifndef __STL_ALGOBASE_H__
 #define __STL_ALGOBASE_H__
 
+#include "type_traits.h"
+#include "stl_iterator.h"
 #include "stl_pair.h"
 
 #include <cstddef>
@@ -185,5 +187,81 @@ inline void swap(T& a, T& b) {
 }
 
 } // namespace Sstl swap
+
+// copy
+namespace Sstl {
+
+template<class InputIterator, class OutputIterator>
+inline OutputIterator copy(InputIterator first, InputIterator last, OutputIterator result) {
+    return __copy_dispatch<InputIterator, OutputIterator>()(first, last, result);
+}
+
+inline char* copy(const char* first, const char* last, char* result) {
+    memmove(result, first, last - first);
+    return result + (last - first);
+}
+
+inline wchar_t* copy(const wchar_t* first, const wchar_t* last, wchar_t* result) {
+    memmove(result, first, (last - first) * sizeof(wchar_t));
+    return result + (last - first);
+}
+
+template<class InputIterator, class OutputIterator>
+struct __copy_dispatch {
+    OutputIterator operator()(InputIterator first, InputIterator last, OutputIterator result) {
+        return __copy(first, last, result, iterator_category(first));
+    }
+};
+
+template<class T>
+struct __copy_dispatch<T*, T*> {
+    T* operator()(T* first, T* last, T* result) {
+        typedef typename __type_traits<T>::has_trivial_assignment_operator t;
+        return __copy_t(first, last, result, t());
+    }
+};
+
+template<class T>
+struct __copy_dispatch<const T*, T*> {
+    T* operator()(const T* first, const T* last, T* result) {
+        typedef typename __type_traits<T>::has_trivial_assignment_operator t;
+        return __copy_t(first, last, result, t());
+    }
+};
+
+template<class InputIterator, class OutputIterator>
+inline OutputIterator __copy(InputIterator first, InputIterator last,
+                             OutputIterator result, input_iterator_tag) {
+    for (; first != last; ++result, ++first)
+        *result = *first;
+    return result;
+}
+
+template<class RandomAccessIterator, class OutputIterator>
+inline OutputIterator __copy(RandomAccessIterator first, RandomAccessIterator last,
+                             OutputIterator result, random_access_iterator_tag) {
+    return __copy_d(first, last, result, distance_type(first));
+}
+
+template<class RandomAccessIterator, class OutputIterator, class Distance>
+inline OutputIterator __copy_d(RandomAccessIterator first, RandomAccessIterator last,
+                               OutputIterator result, Distance*) {
+    for (Distance n = last - first; n > 0; --n, ++result, ++first)
+        *result = *first;
+    return result;
+}
+
+template<class T>
+inline T* __copy_t(const T* first, const T* last, T* result, __true_type) {
+    memmove(result, first, sizeof(T) * (last - first));
+    return result + (last - first);
+}
+
+template<class T>
+inline T* __copy_t(const T* first, const T* last, T* result, __false_type) {
+    return __copy_d(first, last, result, (ptrdiff_t*)0);
+}
+
+} // namespace Sstl copy
 
 #endif

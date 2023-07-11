@@ -110,4 +110,21 @@ inline bool lexicographical_compare(const unsigned char* first1, const unsigned 
 
 } // namespace Sstl lexicographical compare
 
+// max
+namespace Sstl {
+
+// first version of two of max
+template<class T>
+inline const T& max(const T& a, const T& b) {
+    return a < b ? b : a;
+}
+
+// second version of two of max
+template<class T, class Compare>
+inline const T& max(const T& a, const T& b, Compare comp) {
+    return comp(a, b) ? b : a;
+}
+
+} // namespace Sstl max
+
 #endif

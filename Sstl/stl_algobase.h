@@ -173,4 +173,17 @@ pair<InputIterator1, InputIterator2> mismatch(InputIterator1 first1, InputIterat
 
 } // namespace Sstl mismatch
 
+// swap
+namespace Sstl {
+
+// the only one version of swap
+template<class T>
+inline void swap(T& a, T& b) {
+    T tmp = a;
+    a = b;
+    b = tmp;
+}
+
+} // namespace Sstl swap
+
 #endif

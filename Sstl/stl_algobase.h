@@ -127,4 +127,21 @@ inline const T& max(const T& a, const T& b, Compare comp) {
 
 } // namespace Sstl max
 
+// min
+namespace Sstl {
+
+// first version of two of min
+template<class T>
+inline const T& min(const T& a, const T& b) {
+    return b < a ? b : a;
+}
+
+// second version of two of min
+template<class T, class Compare>
+inline const T& min(const T& a, const T& b, Compare comp) {
+    return comp(b, a) ? b : a;
+}
+
+} // namespace Sstl min
+
 #endif

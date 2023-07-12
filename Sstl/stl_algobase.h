@@ -264,4 +264,92 @@ inline T* __copy_t(const T* first, const T* last, T* result, __false_type) {
 
 } // namespace Sstl copy
 
+// copy backward
+namespace Sstl {
+
+template<class BidirectionalIterator1, class BidirectionalIterator2>
+inline BidirectionalIterator2 copy_backward(BidirectionalIterator1 first, BidirectionalIterator1 last,
+                                   BidirectionalIterator2 result) {
+    return __copy_backward_dispatch<BidirectionalIterator1, BidirectionalIterator2>()(first, last, result);
+}
+
+inline char* copy_backward(const char* first, const char* last, char* result) {
+    ptrdiff_t n = last - first;
+    result -= n;
+    memmove(result, first, last - first);
+    return result;
+}
+
+inline wchar_t* copy_backward(const wchar_t* first, const wchar_t* last, wchar_t* result) {
+    ptrdiff_t n = last - first;
+    result -= n;
+    memmove(result, first, (last - first) * sizeof(wchar_t));
+    return result;
+}
+
+template<class BidirectionalIterator1, class BidirectionalIterator2>
+struct __copy_backward_dispatch {
+    BidirectionalIterator2 operator()(BidirectionalIterator1 first, BidirectionalIterator1 last,
+                                      BidirectionalIterator2 result) {
+        return __copy_backward(first, last, result, iterator_category(first));
+    }
+};
+
+template<class T>
+struct __copy_backward_dispatch<T*, T*> {
+    T* operator()(T* first, T* last, T* result) {
+        typedef typename __type_traits<T>::has_trivial_assignment_operator t;
+        return __copy_backward_t(first, last, result, t());
+    }
+};
+
+template<class T>
+struct __copy_backward_dispatch<const T*, T*> {
+    T* operator()(const T* first, const T* last, T* result) {
+        typedef typename __type_traits<T>::has_trivial_assignment_operator t;
+        return __copy_backward_t(first, last, result, t());
+    }
+};
+
+template<class BidirectionalIterator1, class BidirectionalIterator2>
+inline BidirectionalIterator2 __copy_backward(BidirectionalIterator1 first, BidirectionalIterator1 last,
+                                      BidirectionalIterator2 result, input_iterator_tag) {
+    for (; last != first;) {
+        --last;
+        --result;
+        *result = *last;
+    }
+    return result;
+}
+
+template<class RandomAccessIterator, class BidirectionalIterator>
+inline BidirectionalIterator __copy_backward(RandomAccessIterator first, RandomAccessIterator last,
+                             BidirectionalIterator result, random_access_iterator_tag) {
+    return __copy_backward_d(first, last, result, distance_type(first));
+}
+
+template<class RandomAccessIterator, class BidirectionalIterator, class Distance>
+inline BidirectionalIterator __copy_backward_d(RandomAccessIterator first, RandomAccessIterator last,
+                               BidirectionalIterator result, Distance*) {
+    for (Distance n = last - first; n > 0; --n) {
+        --last;
+        --result;
+        *result = *last;
+    }
+    return result;
+}
+
+template<class T>
+inline T* __copy_backward_t(const T* first, const T* last, T* result, __true_type) {
+    memmove(result, first, sizeof(T) * (last - first));
+    return result + (last - first);
+}
+
+template<class T>
+inline T* __copy_backward_t(const T* first, const T* last, T* result, __false_type) {
+    return __copy_backward_d(first, last, result, (ptrdiff_t*)0);
+}
+
+} // namespace Sstl copy backward
+
 #endif

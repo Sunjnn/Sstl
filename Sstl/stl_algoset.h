@@ -60,6 +60,56 @@ OutputIterator set_union(InputIterator1 first1, InputIterator1 last1,
     return copy(first2, last2, copy(first1, last1, result));
 }
 
+} // namespace Sstl
+
+// ser intersection
+namespace Sstl {
+
+// if the number of a element in set1 is m and that in set2 is n,
+// so that in output set is min(m, n)
+
+
+// first of two versions of algorithm set intersection
+template<class InputIterator1, class InputIterator2, class OutputIterator>
+OutputIterator set_intersection(InputIterator1 first1, InputIterator1 last1,
+                                InputIterator2 first2, InputIterator2 last2,
+                                OutputIterator result) {
+    while (first1 != last1 && first2 != last2) {
+        if (*first1 < *first2)
+            ++first1;
+        else if (*first2 < *first1)
+            ++first2;
+        else {
+            *result = *first1;
+            ++first1;
+            ++first2;
+            ++result;
+        }
+    }
+    return result;
+}
+
+// second of two versions of algorithm ser intersection
+template<class InputIterator1, class InputIterator2,
+         class OutputIterator, class BinaryOperation>
+OutputIterator set_union(InputIterator1 first1, InputIterator1 last1,
+                         InputIterator2 first2, InputIterator2 last2,
+                         OutputIterator result, BinaryOperation comp) {
+    while (first1 != last1 && first2 != last2) {
+        if (comp(*first1, *first2))
+            ++first1;
+        else if (comp(*first2, *first1))
+            ++first2;
+        else {
+            *result = *first1;
+            ++first1;
+            ++first2;
+            ++result;
+        }
+    }
+    return result;
+}
+
 }
 
 #endif

@@ -92,7 +92,7 @@ OutputIterator set_intersection(InputIterator1 first1, InputIterator1 last1,
 // second of two versions of algorithm ser intersection
 template<class InputIterator1, class InputIterator2,
          class OutputIterator, class BinaryOperation>
-OutputIterator set_union(InputIterator1 first1, InputIterator1 last1,
+OutputIterator set_intersection(InputIterator1 first1, InputIterator1 last1,
                          InputIterator2 first2, InputIterator2 last2,
                          OutputIterator result, BinaryOperation comp) {
     while (first1 != last1 && first2 != last2) {
@@ -110,6 +110,57 @@ OutputIterator set_union(InputIterator1 first1, InputIterator1 last1,
     return result;
 }
 
+} // namespace
+
+// set difference
+namespace Sstl {
+
+// if the number of a element in set1 is m and that in set2 is n,
+// so that in output set is max(m - n, 0)
+
+// first of two versions of algorithm set difference
+template<class InputIterator1, class InputIterator2, class OutputIterator>
+OutputIterator set_difference(InputIterator1 first1, InputIterator1 last1,
+                              InputIterator2 first2, InputIterator2 last2,
+                              OutputIterator result) {
+    while (first1 != last1 && first2 != last2) {
+        if (*first1 < *first2) {
+            *result = *first1;
+            ++first1;
+            ++result;
+        }
+        else if (*first2 < *first1)
+            ++first2;
+        else {
+            ++first1;
+            ++first2;
+        }
+    }
+    return copy(first1, first2, result);
 }
+
+// second of two versions of algorithm set difference
+template<class InputIterator1, class InputIterator2,
+         class OutputIterator, class BinaryOperation>
+OutputIterator set_difference(InputIterator1 first1, InputIterator1 last1,
+                         InputIterator2 first2, InputIterator2 last2,
+                         OutputIterator result, BinaryOperation comp) {
+    while (first1 != last1 && first2 != last2) {
+        if (comp(*first1, *first2)) {
+            *result = *first1;
+            ++first1;
+            ++result;
+        }
+        else if (comp(*first2, *first1))
+            ++first2;
+        else {
+            ++first1;
+            ++first2;
+        }
+    }
+    return copy(first1, first2, result);
+}
+
+} // namespace Sstl
 
 #endif

@@ -1,6 +1,8 @@
 #ifndef __STL_ALGO_H__
 #define __STL_ALGO_H__
 
+#include "stl_iterator.h"
+
 // find
 namespace Sstl {
 
@@ -46,5 +48,21 @@ ForwardIterator adjacent_find(ForwardIterator frist, ForwardIterator last,
 }
 
 } // namespace Sstl adjacent_find
+
+// count
+namespace Sstl {
+
+// only one version of count
+template<class InputIterator, class T>
+typename iterator_traits<InputIterator>::difference_type
+count(InputIterator first, InputIterator last, const T& value) {
+    typename iterator_traits<InputIterator>::difference_type n = 0;
+    for (; first != last; ++first)
+        if (*first == value)
+            ++n;
+    return n;
+}
+
+} // namespace Sstl count
 
 #endif

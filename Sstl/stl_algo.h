@@ -17,6 +17,19 @@ ForwardIterator find(ForwardIterator begin, ForwardIterator end, const T& value)
 
 } // namespace Sstl find
 
+//find_if
+namespace Sstl {
+
+// onle one version of find_if
+template<class InputIterator, class Predicate>
+InputIterator find_if(InputIterator first, InputIterator last,
+                      Predicate pred) {
+    while (first != last && !pred(*first)) ++first;
+    return first;
+}
+
+} // namespace Sstl find_if
+
 // adjacent find
 namespace Sstl {
 

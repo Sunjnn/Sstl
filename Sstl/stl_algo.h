@@ -62,6 +62,111 @@ ForwardIterator adjacent_find(ForwardIterator frist, ForwardIterator last,
 
 } // namespace Sstl adjacent_find
 
+// find_end
+namespace Sstl {
+
+// first of two versions of find_end
+template<class ForwardIterator1, class ForwardIterator2>
+inline ForwardIterator1
+find_end(ForwardIterator1 first1, ForwardIterator1 last1,
+         ForwardIterator2 first2, ForwardIterator2 last2) {
+    typedef typename iterator_traits<ForwardIterator1>::iterator_category
+        category1;
+    typedef typename iterator_traits<ForwardIterator2>::iterator_category
+        category2;
+
+    return __find_end(first1, last1, first2, last2, category1(), category2());
+}
+
+template<class ForwardIterator1, class ForwardIterator2>
+ForwardIterator1 __find_end(ForwardIterator1 first1, ForwardIterator1 last1,
+                            ForwardIterator2 first2, ForwardIterator2 last2,
+                            forward_iterator_tag, forward_iterator_tag) {
+    if (first2 == last2) return last1;
+
+    ForwardIterator1 result = last1;
+    while (1) {
+        ForwardIterator1 new_result = search(first1, last1, first2, last2);
+        if (new_result == last1) return result;
+        result = new_result;
+        first1 = new_result;
+        ++first1;
+    }
+}
+
+template<class BidirectionalIterator1, class BidirectionalIterator2>
+BidirectionalIterator1
+__find_end(BidirectionalIterator1 first1, BidirectionalIterator1 last1,
+           BidirectionalIterator2 first2, BidirectionalIterator2 last2,
+           bidirectional_iterator_tag, bidirectional_iterator_tag) {
+    typedef reverse_iterator<BidirectionalIterator1> reviter1;
+    typedef reverse_iterator<BidirectionalIterator2> reviter2;
+
+    reviter1 rlast1(first1);
+    reviter2 rlast2(first2);
+    reviter1 rresult = search(reviter1(last1), rlast1,
+                              reviter2(last2), rlast2);
+
+    if (rresult == rlast1) return last1;
+    BidirectionalIterator1 result = rresult.base();
+    advance(result, -distance(first2, last2));
+    return result;
+}
+
+// second of two versions of find_end
+template<class ForwardIterator1, class ForwardIterator2, class Predicate>
+inline ForwardIterator1
+find_end(ForwardIterator1 first1, ForwardIterator1 last1,
+         ForwardIterator2 first2, ForwardIterator2 last2, Predicate pred) {
+    typedef typename iterator_traits<ForwardIterator1>::iterator_category
+        category1;
+    typedef typename iterator_traits<ForwardIterator2>::iterator_category
+        category2;
+
+    return __find_end(first1, last1, first2, last2, pred,
+                      category1(), category2());
+}
+
+template<class ForwardIterator1, class ForwardIterator2, class Predicate>
+ForwardIterator1 __find_end(ForwardIterator1 first1, ForwardIterator1 last1,
+                            ForwardIterator2 first2, ForwardIterator2 last2,
+                            Predicate pred,
+                            forward_iterator_tag, forward_iterator_tag) {
+    if (first2 == last2) return last1;
+
+    ForwardIterator1 result = last1;
+    while (1) {
+        ForwardIterator1 new_result = search(first1, last1, first2, last2, pred);
+        if (new_result == last1) return result;
+        result = new_result;
+        first1 = new_result;
+        ++first1;
+    }
+}
+
+template<class BidirectionalIterator1, class BidirectionalIterator2,
+         class Predicate>
+BidirectionalIterator1
+__find_end(BidirectionalIterator1 first1, BidirectionalIterator1 last1,
+           BidirectionalIterator2 first2, BidirectionalIterator2 last2,
+           Predicate pred,
+           bidirectional_iterator_tag, bidirectional_iterator_tag) {
+    typedef reverse_iterator<BidirectionalIterator1> reviter1;
+    typedef reverse_iterator<BidirectionalIterator2> reviter2;
+
+    reviter1 rlast1(first1);
+    reviter2 rlast2(first2);
+    reviter1 rresult = search(reviter1(last1), rlast1,
+                              reviter2(last2), rlast2, pred);
+
+    if (rresult == rlast1) return last1;
+    BidirectionalIterator1 result = rresult.base();
+    advance(result, -distance(first2, last2));
+    return result;
+}
+
+} // namespace Sstl find_end
+
 // count
 namespace Sstl {
 

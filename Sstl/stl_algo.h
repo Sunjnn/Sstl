@@ -208,6 +208,17 @@ Function for_each(InputIterator first, InputIterator last, Function f) {
 
 } // namespace Sstl for_each
 
+// generate
+namespace Sstl {
+
+template<class ForwardIterator, class Generator>
+void generate(ForwardIterator first, ForwardIterator last, Generator gen) {
+    for (; first != last; ++first)
+        *first = gen();
+}
+
+} // namespace Sstl generate
+
 // count
 namespace Sstl {
 

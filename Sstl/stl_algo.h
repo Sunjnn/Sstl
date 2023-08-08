@@ -219,6 +219,18 @@ void generate(ForwardIterator first, ForwardIterator last, Generator gen) {
 
 } // namespace Sstl generate
 
+// generate_n
+namespace Sstl {
+
+template<class OutputIterator, class Size, class Generator>
+OutputIterator generate_n(OutputIterator first, Size n, Generator gen) {
+    for (; n > 0; --n, ++first)
+        *first = gen();
+    return first;
+}
+
+} // namespace Sstl generate_n
+
 // count
 namespace Sstl {
 

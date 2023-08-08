@@ -167,6 +167,34 @@ __find_end(BidirectionalIterator1 first1, BidirectionalIterator1 last1,
 
 } // namespace Sstl find_end
 
+// find_first_of
+namespace Sstl {
+
+// first of two versions of find_first_of
+template<class InputIterator, class ForwardIterator>
+InputIterator find_first_of(InputIterator first1, InputIterator last1,
+                            ForwardIterator first2, ForwardIterator last2) {
+    for (; first1 != last1; ++first1)
+        for (ForwardIterator iter = first2; iter != last2; ++iter)
+            if (*first1 == *iter)
+                return first1;
+    return last1;
+}
+
+// second of two versions of find_first_of
+template<class InputIterator, class ForwardIterator, class BinaryPredicate>
+InputIterator find_first_of(InputIterator first1, InputIterator last1,
+                            ForwardIterator first2, ForwardIterator last2,
+                            BinaryPredicate comp) {
+    for (; first1 != last1; ++first1)
+        for (ForwardIterator iter = first2; iter != last2; ++iter)
+            if (comp(*first1, *iter))
+                return first1;
+    return last1;
+}
+
+} // namespace Sstl find_first_of
+
 // count
 namespace Sstl {
 

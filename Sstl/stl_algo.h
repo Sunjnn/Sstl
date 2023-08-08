@@ -195,6 +195,19 @@ InputIterator find_first_of(InputIterator first1, InputIterator last1,
 
 } // namespace Sstl find_first_of
 
+// for_each
+namespace Sstl {
+
+// only one version of for_each
+template<class InputIterator, class Function>
+Function for_each(InputIterator first, InputIterator last, Function f) {
+    for (; first != last; ++first)
+        f(*first);
+    return f;
+}
+
+} // namespace Sstl for_each
+
 // count
 namespace Sstl {
 

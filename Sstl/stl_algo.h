@@ -270,6 +270,32 @@ bool include(InputIterator1 first1, InputIterator1 last1,
 
 } // namespace Sstl include
 
+// max_element
+namespace Sstl {
+
+// first of two versions of max_element
+template<class ForwardIterator>
+ForwardIterator max_element(ForwardIterator first, ForwardIterator last) {
+    if (first == last) return first;
+    ForwardIterator result = first;
+    while (++first != last)
+        if (*result < *first) result = first;
+    return result;
+}
+
+// second of two versions of max_element
+template<class ForwardIterator, class Compare>
+ForwardIterator max_element(ForwardIterator first, ForwardIterator last,
+                            Compare comp) {
+    if (first == last) return first;
+    ForwardIterator result = first;
+    while (++first != last)
+        if (comp(*result, *first)) result = first;
+    return result;
+}
+
+} // namespace Sstl max_element
+
 // count
 namespace Sstl {
 

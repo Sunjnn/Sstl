@@ -297,6 +297,32 @@ ForwardIterator max_element(ForwardIterator first, ForwardIterator last,
 
 } // namespace Sstl max_element
 
+// min_element
+namespace Sstl {
+
+// first of two versions of min_element
+template<class ForwardIterator>
+ForwardIterator min_element(ForwardIterator first, ForwardIterator last) {
+    if (first == last) return first;
+    ForwardIterator result = first;
+    while (++first != last)
+        if (*first < *result) result = first;
+    return result;
+}
+
+// second of two versions of min_element
+template<class ForwardIterator, class Compare>
+ForwardIterator min_element(ForwardIterator first, ForwardIterator last,
+                            Compare comp) {
+    if (first == last) return first;
+    ForwardIterator result = first;
+    while (++first != last)
+        if (comp(*first, *result)) result = first;
+    return result;
+}
+
+} // namespace Sstl min_element
+
 // merge
 namespace Sstl {
 

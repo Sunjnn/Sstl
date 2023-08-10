@@ -475,6 +475,33 @@ void replace_copy_if(InputIterator first, InputIterator last,
 
 } // namespace Sstl replace_copy_if
 
+// reverse
+namespace Sstl {
+
+// only one version of reverse
+template<class BidirectionalIterator>
+inline void reverse(BidirectionalIterator first, BidirectionalIterator last) {
+    __reverse(first, last, iterator_category(first));
+}
+
+template<class BidirectionalIterator>
+void __reverse(BidirectionalIterator first, BidirectionalIterator last,
+               bidirectional_iterator_tag) {
+    while (true)
+        if (first == last || first == --last)
+            return;
+        else
+            iter_swap(first++, last);
+}
+
+template<class RandomAccessIterator>
+void __reverse(RandomAccessIterator first, RandomAccessIterator last,
+               random_access_iterator_tag) {
+    while (first < last) iter_swap(first++, --last);
+}
+
+} // namespace Sstl reverse
+
 // merge
 namespace Sstl {
 

@@ -502,6 +502,23 @@ void __reverse(RandomAccessIterator first, RandomAccessIterator last,
 
 } // namespace Sstl reverse
 
+// reverse_copy
+namespace Sstl {
+
+template<class BidirectionalIterator, class OutputIterator>
+OutputIterator reverse_copy(BidirectionalIterator first,
+                            BidirectionalIterator last,
+                            OutputIterator result) {
+    while (first != last) {
+        --last;
+        *result = *last;
+        ++result;
+    }
+    return result;
+}
+
+} // namespace Sstl reverse_copy
+
 // merge
 namespace Sstl {
 

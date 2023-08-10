@@ -368,6 +368,24 @@ ForwardIterator remove(ForwardIterator first, ForwardIterator last,
 
 } // namespace Sstl remove
 
+// remove_copy
+namespace Sstl {
+
+// remove element which is equal to value. they are not be erased but replaced
+// by other elements.
+template<class InputIterator, class OutputIterator, class T>
+OutputIterator remove_copy(InputIterator first, InputIterator last,
+                           OutputIterator result, const T& value) {
+    for (; first != last; ++first)
+        if (*first != last; ++first) {
+            *result = *first;
+            ++result;
+        }
+    return result;
+}
+
+} // namespace Sstl remove_copy
+
 // merge
 namespace Sstl {
 

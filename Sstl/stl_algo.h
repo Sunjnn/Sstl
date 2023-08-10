@@ -323,6 +323,36 @@ ForwardIterator min_element(ForwardIterator first, ForwardIterator last,
 
 } // namespace Sstl min_element
 
+// partition
+namespace Sstl {
+
+template<class BidirectionalIterator, class Predicate>
+BidirectionalIterator partition(BidirectionalIterator first,
+                                BidirectionalIterator last,
+                                Predicate pred) {
+    while (true) {
+        while (true)
+            if (first == last)
+                return first;
+            else if (pred(*first))
+                ++first;
+            else
+                break;
+        --last;
+        while (true)
+            if (first == last)
+                return first;
+            else if (!pred(*last))
+                --last;
+            else
+                break;
+        iter_swap(first, last);
+        ++first
+    }
+}
+
+} // namespace Sstl partition
+
 // merge
 namespace Sstl {
 

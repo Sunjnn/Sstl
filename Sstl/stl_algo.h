@@ -432,6 +432,21 @@ void replace(ForwardIterator first, ForwardIterator last,
 
 } // namespace Sstl replace
 
+// replace_copy
+namespace Sstl {
+
+// replace old value with new value
+template<class InputIterator, class OutputIterator, class T>
+void replace_copy(InputIterator first, InputIterator last,
+                  OutputIterator result,
+                  const T& old_value, const T& new_value) {
+    for (; first != last; ++first, ++result)
+        *result = *first == old_value ? new_value : *first;
+    return result;
+}
+
+} // namespace Sstl replace_copy
+
 // merge
 namespace Sstl {
 

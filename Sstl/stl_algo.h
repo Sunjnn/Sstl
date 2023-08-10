@@ -353,6 +353,21 @@ BidirectionalIterator partition(BidirectionalIterator first,
 
 } // namespace Sstl partition
 
+// remove
+namespace Sstl {
+
+// remove element which is equal to value, do not erase them, they are replaced
+// by other elements.
+template<class ForwardIterator, class T>
+ForwardIterator remove(ForwardIterator first, ForwardIterator last,
+                       const T& value) {
+    first = find(first, last, value);
+    ForwardIterator next = first;
+    return first == last ? first : remove_copy(++next, last, first, value);
+}
+
+} // namespace Sstl remove
+
 // merge
 namespace Sstl {
 

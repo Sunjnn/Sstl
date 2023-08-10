@@ -386,6 +386,21 @@ OutputIterator remove_copy(InputIterator first, InputIterator last,
 
 } // namespace Sstl remove_copy
 
+// remove_if
+namespace Sstl {
+
+// remove element which passing to pred return true. they are not be erased but
+// replaced by other elements.
+template<class ForwardIterator, class Predicate>
+ForwardIterator remove_if(ForwardIterator first, ForwardIterator last,
+                          Predicate pred) {
+    first = find_if(first, last, pred);
+    ForwardIterator next = first;
+    return first == last ? first : remove_copy_if(++next, last, first, pred);
+}
+
+} // namespace Sstl remove_if
+
 // merge
 namespace Sstl {
 

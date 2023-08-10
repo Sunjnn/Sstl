@@ -447,6 +447,19 @@ void replace_copy(InputIterator first, InputIterator last,
 
 } // namespace Sstl replace_copy
 
+// replace_if
+namespace Sstl {
+
+// replace old value with new value
+template<class ForwardIterator, class Predicate, class T>
+void replace_if(ForwardIterator first, ForwardIterator last,
+                Predicate pred, const T& new_value) {
+    for (; first != last; ++first)
+        if (pred(*first)) *first = new_value;
+}
+
+} // namespace Sstl replace_if
+
 // merge
 namespace Sstl {
 

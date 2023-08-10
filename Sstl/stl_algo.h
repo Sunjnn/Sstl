@@ -419,6 +419,19 @@ OutputIterator remove_copy_if(InputIterator first, InputIterator last,
 
 } // namespace Sstl remove_copy_if
 
+// replace
+namespace Sstl {
+
+// replace old value with new value
+template<class ForwardIterator, class T>
+void replace(ForwardIterator first, ForwardIterator last,
+             const T& old_value, const T& new_value) {
+    for (; first != last; ++first)
+        if (*first == old_value) *first = new_value;
+}
+
+} // namespace Sstl replace
+
 // merge
 namespace Sstl {
 

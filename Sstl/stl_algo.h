@@ -519,6 +519,82 @@ OutputIterator reverse_copy(BidirectionalIterator first,
 
 } // namespace Sstl reverse_copy
 
+// rotate
+namespace Sstl {
+
+template<class ForwardIterator>
+inline void rotate(ForwardIterator first, ForwardIterator middle,
+                   ForwardIterator last) {
+    if (first == middle || middle == last) return;
+    __rotate(first, middle, last, distance_type(first),
+             iterator_category(first));
+}
+
+template<class ForwardIterator, class Distance>
+void __rotate(ForwardIterator first, ForwardIterator middle,
+              ForwardIterator last, Distance*, forward_iterator_tag) {
+    for (ForwardIterator i = middle;;) {
+        iter_swap(first, i);
+        ++first;
+        ++i;
+        if (first == middle) {
+            if (i == last) return;
+            middle = i;
+        }
+        else if (i == last)
+            i = middle;
+    }
+}
+
+template<class BidirectionalIterator, class Distance>
+void __rotate(BidirectionalIterator first, BidirectionalIterator middle,
+              BidirectionalIterator last, Distance*,
+              bidirectional_iterator_tag) {
+    reverse(first, middle);
+    reverse(middle, last);
+    reverse(first, last);
+}
+
+template<class RandomAccessIterator, class Distance>
+void __rotate(RandomAccessIterator first, RandomAccessIterator middle,
+              RandomAccessIterator last, Distance*,
+              random_access_iterator_tag) {
+    Distance n = __gcd(last - first, middle - first);
+    while (n--) {
+        __rotate_cycle(first, last, first + n, middle - first,
+                       value_type(first));
+    }
+}
+
+template<class EuclideanRingElement>
+EuclideanRingElement __gcd(EuclideanRingElement m, EuclideanRingElement n) {
+    while (n != 0) {
+        EuclideanRingElement t = m % n;
+        m = n;
+        n = t;
+    }
+    return m;
+}
+
+template<class RandomAccessIterator, class Distance, class T>
+void __rotate_cycle(RandomAccessIterator first, RandomAccessIterator last,
+                    RandomAccessIterator initial, Distance shift, T*) {
+    T value = *initial;
+    RandomAccessIterator ptr1 = initial;
+    RandomAccessIterator ptr2 = ptr1 + shift;
+    while (ptr2 != initial) {
+        *ptr1 = *ptr2;
+        ptr1 = ptr2;
+        if (last - ptr2 > shift)
+            ptr2 += shift;
+        else
+            ptr2 = first + (shift - (last - ptr2));
+    }
+    *ptr1 = value;
+}
+
+} // namespace Sstl rotate
+
 // merge
 namespace Sstl {
 

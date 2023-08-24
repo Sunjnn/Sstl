@@ -606,6 +606,53 @@ OutputIterator rotate_copy(ForwardIterator first, ForwardIterator middle,
 
 } // namespace Sstl rotate_copy
 
+// search
+namespace Sstl {
+
+template<class ForwardIterator1, class ForwardIterator2>
+inline ForwardIterator1 search(ForwardIterator1 first1,
+                               ForwardIterator1 last1,
+                               ForwardIterator2 first2,
+                               ForwardIterator2 last2) {
+    return __search(first1, last1, first2, last2, distance_type(first1),
+                    distance_type(first2));
+}
+
+template<class ForwardIterator1, class ForwardIterator2, class Distance1,
+         class Distance2>
+ForwardIterator1 __search(ForwardIterator1 first1, ForwardIterator1 last1,
+                          ForwardIterator2 first2, ForwardIterator2 last2,
+                          Distance1*, Distance2*) {
+    Distance1 d1 = 0;
+    distance(first1, last1, d1);
+    Distance2 d2 = 0;
+    distance(first2, last2, d2);
+
+    if (d1 < d2) return last1;
+
+    ForwardIterator1 current1 = first1;
+    ForwardIterator2 current2 = first2;
+
+    while (current2 != last2) {
+        if (*current1 == *current2) {
+            ++current1;
+            ++current2;
+        }
+        else {
+            if (d1 == d2)
+                return last1;
+            else {
+                current1 = ++first1;
+                current2 = first2;
+                --d1;
+            }
+        }
+    }
+    return first1;
+}
+
+} // namespace Sstl search
+
 // merge
 namespace Sstl {
 

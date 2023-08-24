@@ -595,6 +595,17 @@ void __rotate_cycle(RandomAccessIterator first, RandomAccessIterator last,
 
 } // namespace Sstl rotate
 
+// rotate_copy
+namespace Sstl {
+
+template<class ForwardIterator, class OutputIterator>
+OutputIterator rotate_copy(ForwardIterator first, ForwardIterator middle,
+                           ForwardIterator last, OutputIterator result) {
+    return copy(first, middle, copy(middle, last, result));
+}
+
+} // namespace Sstl rotate_copy
+
 // merge
 namespace Sstl {
 

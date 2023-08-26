@@ -735,6 +735,31 @@ ForwardIterator2 swap_ranges(ForwardIterator1 first1,
 
 } // namespace Sstl swap_ranges
 
+// transform
+namespace Sstl {
+
+// first of two versions of transform
+template<class InputIterator, class OutputIterator, class UnaryOperation>
+OutputIterator transform(InputIterator first, InputIterator last,
+                         OutputIterator result, UnaryOperation op) {
+    for (; first != last; ++first, ++result)
+        *result = op(*first);
+    return result;
+}
+
+// second of two version of transform
+template<class InputIterator1, class InputIterator2, class OutputIterator,
+         class BinaryOperation>
+OutputIterator transform(InputIterator1 first1, InputIterator1 last1,
+                         InputIterator2 first2, OutputIterator result,
+                         BinaryOperation binary_op) {
+    for (; first1 != last1; ++first1, ++first2, ++result)
+        *result = binary_op(*first1, *first2);
+    return result;
+}
+
+} // namespace Sstl transform
+
 // merge
 namespace Sstl {
 

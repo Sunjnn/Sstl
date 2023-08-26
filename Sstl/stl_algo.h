@@ -771,6 +771,52 @@ ForwardIterator unique(ForwardIterator first, ForwardIterator last) {
 
 } // namespace Sstl unique
 
+// unique_copy
+namespace Sstl {
+
+template<class InputIterator, class OutputIterator>
+inline OutputIterator unique_copy(InputIterator first,
+                                  InputIterator last,
+                                  OutputIterator result) {
+    if (first == last) return result;
+    return __unique_copy(first, last, result, iterator_category(result));
+}
+
+template<class InputIterator, class ForwardIterator>
+ForwardIterator __unique_copy(InputIterator first,
+                              InputIterator last,
+                              ForwardIterator result,
+                              forward_iterator_tag) {
+    *result = *first;
+    while (++first != last)
+        if (*result != *first) *++result = *first;
+    return ++result;
+}
+
+template<class InputIterator, class OutputIterator>
+inline OutputIterator __unique_copy(InputIterator first,
+                                    InputIterator last,
+                                    OutputIterator result,
+                                    output_iterator_tag) {
+    return __unique_copy(first, last, result, value_type(first));
+}
+
+template<class InputIterator, class OutputIterator, class T>
+OutputIterator __unique_copy(InputIterator first, InputIterator last,
+                             OutputIterator result, T*) {
+    T value = *first;
+    *result = value;
+    while (++first != last) {
+        if (value != *first) {
+            value = *first;
+            *++result = value;
+        }
+    }
+    return ++result;
+}
+
+} // namespace Sstl unique_copy
+
 // merge
 namespace Sstl {
 

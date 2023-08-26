@@ -720,6 +720,21 @@ ForwardIterator search_n(ForwardIterator first,
 
 } // namespace Sstl search_n
 
+// swap_ranges
+namespace Sstl {
+
+template<class ForwardIterator1, class ForwardIterator2>
+ForwardIterator2 swap_ranges(ForwardIterator1 first1,
+                             ForwardIterator1 last1,
+                             ForwardIterator2 first2,
+                             ForwardIterator2 last2) {
+    for (; first1 != last1; ++first1, ++first2)
+        iter_swap(first1, first2);
+    return first2;
+}
+
+} // namespace Sstl swap_ranges
+
 // merge
 namespace Sstl {
 

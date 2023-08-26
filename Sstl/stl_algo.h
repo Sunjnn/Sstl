@@ -653,6 +653,73 @@ ForwardIterator1 __search(ForwardIterator1 first1, ForwardIterator1 last1,
 
 } // namespace Sstl search
 
+// search_n
+namespace Sstl {
+
+// first of two version of search_n
+template<class ForwardIterator, class Integer, class T>
+ForwardIterator search_n(ForwardIterator first,
+                         ForwardIterator last,
+                         Integer count, const T& value) {
+    if (count < 0)
+        return first;
+    else {
+        first = find(first, last, value);
+        while (first != last) {
+            Integer n = count - 1;
+            ForwardIterator i = first;
+            ++i;
+            while (i != last && n != 0 && *i == value) {
+                ++i;
+                --n;
+            }
+            if (n == 0)
+                return first;
+            else
+                first = find(i, last, value);
+        }
+        return last;
+    }
+}
+
+// second of two version of search_n
+template<class ForwardIterator, class Integer, class T,
+         class BinaryPredicate>
+ForwardIterator search_n(ForwardIterator first,
+                         ForwardIterator last,
+                         Integer count, const T& value,
+                         BinaryPredicate binary_pred) {
+    if (count <= 0)
+        return first;
+    else {
+        while (first != last) {
+            if (binary_pred(*first, value)) break;
+            ++first;
+        }
+        while (first != last) {
+            Integer n = count - 1;
+            ForwardIterator i = first;
+            ++i;
+            while (i != last && n != 0 && binary_pred(*i, value)) {
+                ++i;
+                --n;
+            }
+            if (n == 0)
+                return first;
+            else {
+                while (i != last) {
+                    if (binary_pred(*i, value)) break;
+                    ++i;
+                }
+                first = i;
+            }
+        }
+        return last;
+    }
+}
+
+} // namespace Sstl search_n
+
 // merge
 namespace Sstl {
 

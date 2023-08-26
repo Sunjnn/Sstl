@@ -760,6 +760,17 @@ OutputIterator transform(InputIterator1 first1, InputIterator1 last1,
 
 } // namespace Sstl transform
 
+// unique
+namespace Sstl {
+
+template<class ForwardIterator>
+ForwardIterator unique(ForwardIterator first, ForwardIterator last) {
+    first = adjacent_find(first, last);
+    return unique_copy(first, last, first);
+}
+
+} // namespace Sstl unique
+
 // merge
 namespace Sstl {
 

@@ -973,6 +973,39 @@ bool next_permutation(BidirectionalIterator first,
 
 } // namespace Sstl next_permutation
 
+// prev_permutation
+namespace Sstl {
+
+// return the last queue in lexicographical order
+template<class BidirectionalIterator>
+bool prev_permutation(BidirectionalIterator first,
+                      BidirectionalIterator last) {
+    if (first == last) return false;
+    BidirectionalIterator i = first;
+    ++i;
+    if (i == last) return false;
+    i = last;
+    --i;
+
+    for (;;) {
+        BidirectionalIterator ii = i;
+        --i;
+        if (*ii < *i) {
+            BidirectionalIterator j = last;
+            while (!(*--j < *i));
+            iter_swap(i, j);
+            reverse(ii, last);
+            return true;
+        }
+        if (i == first) {
+            reverse(first, last);
+            return false;
+        }
+    }
+}
+
+} // namespace Sstl prev_premutation
+
 // merge
 namespace Sstl {
 

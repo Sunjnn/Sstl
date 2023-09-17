@@ -941,6 +941,38 @@ RandomAccessIterator __upper_bound(RandomAccessIterator first,
 
 } // namespace Sstl upper_bound
 
+// next_permutation
+namespace Sstl {
+
+// return the next queue in lexicographical order
+template<class BidirectionalIterator>
+bool next_permutation(BidirectionalIterator first,
+                      BidirectionalIterator last) {
+    if (first == last) return false;
+    BidirectionalIterator i = first;
+    ++i;
+    if (i == last) return false;
+    i = last;
+    --i;
+    for (;;) {
+        BidirectionalIterator ii = i;
+        --i;
+        if (*i < *ii) {
+            BidirectionalIterator j = last;
+            while (!(*i < *--j));
+            iter_swap(i, j);
+            reverse(ii, last);
+            return true;
+        }
+        if (i == first) {
+            reverse(first, last);
+            return false;
+        }
+    }
+}
+
+} // namespace Sstl next_permutation
+
 // merge
 namespace Sstl {
 

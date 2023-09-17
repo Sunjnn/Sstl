@@ -1006,6 +1006,36 @@ bool prev_permutation(BidirectionalIterator first,
 
 } // namespace Sstl prev_premutation
 
+// random_shuffle
+namespace Sstl {
+
+// first of two versions of random_shuffle
+template<class RandomAccessIterator>
+inline void random_shuffle(RandomAccessIterator first,
+                           RandomAccessIterator last) {
+    __random_shuffle(first, last, distance_type(first));
+}
+
+template<class RandomAccessIterator, class Distance>
+void __random_shuffle(RandomAccessIterator first,
+                      RandomAccessIterator last,
+                      Distance*) {
+    if (first == last) return;
+    for (RandomAccessIterator i = first + 1; i != last; ++i)
+        iter_swap(i, first + Distance(rand() % ((i - first) + 1)));
+}
+
+// second of two versions of random_shuffle
+template<class RandomAccessIterator, class RandomNumberGenerator>
+void random_shuffle(RandomAccessIterator first, RandomAccessIterator last,
+                    RandomNumberGenerator& rand) {
+    if (first == last) return;
+    for (RandomAccessIterator i = first + 1; i!= last; ++i)
+        iter_swap(i, first + rand((i - first) + 1));
+}
+
+} // namespace Sstl random_shuffle
+
 // merge
 namespace Sstl {
 

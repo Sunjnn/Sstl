@@ -1060,6 +1060,28 @@ void __partial_sort(RandomAccessIterator first,
 
 } // namespace Sstl partial_sort
 
+// partial_sort_copy
+namespace Sstl {
+
+template<class InputIterator, class RandomAccessIterator>
+inline RandomAccessIterator
+partial_sort_copy(InputIterator first,
+                  InputIterator last,
+                  RandomAccessIterator result_first,
+                  RandomAccessIterator result_last) {
+    InputIterator i1 = first;
+    RandomAccessIterator i2 = result_first;
+    while (i1 != last) {
+        *i2 = *i1;
+        ++i1;
+        ++i2;
+    }
+    partial_sort(result_first, result_last, result_last);
+    return result_last;
+}
+
+} // namespace Sstl partial_sort_copy
+
 // merge
 namespace Sstl {
 

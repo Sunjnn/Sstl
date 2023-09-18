@@ -3,6 +3,7 @@
 
 #include "stl_iterator.h"
 #include "stl_algobase.h"
+#include "stl_heap.h"
 
 // find
 namespace Sstl {
@@ -1035,6 +1036,29 @@ void random_shuffle(RandomAccessIterator first, RandomAccessIterator last,
 }
 
 } // namespace Sstl random_shuffle
+
+// partial_sort
+namespace Sstl {
+
+template<class RandomAccessIterator>
+inline void partial_sort(RandomAccessIterator first,
+                         RandomAccessIterator middle,
+                         RandomAccessIterator last) {
+    __partial_sort(first, middle, last, value_type(first));
+}
+
+template<class RandomAccessIterator, class T>
+void __partial_sort(RandomAccessIterator first,
+                    RandomAccessIterator middle,
+                    RandomAccessIterator last, T*) {
+    make_heap(first, middle);
+    for (RandomAccessIterator i = middle; i < last; ++i)
+        if (*i < *first)
+            __pop_heap(first, middle, i, T(*i), distance_type(first));
+    sort_heap(first, middle);
+}
+
+} // namespace Sstl partial_sort
 
 // merge
 namespace Sstl {

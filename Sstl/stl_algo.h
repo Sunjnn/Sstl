@@ -1277,6 +1277,105 @@ __equal_range(ForwardIterator first, ForwardIterator last, const T& value,
 
 } // namespace Sstl equal_range
 
+// inplace_merge
+namespace Sstl {
+
+template<class BidirectionalIterator>
+inline void inplace_merge(BidirectionalIterator first,
+                          BidirectionalIterator middle,
+                          BidirectionalIterator last) {
+    if (first == middle || middle == last) return;
+    __inplace_merge_aux(first, middle, last, value_type(first),
+                        distance_type(first));
+}
+
+template<class BidirectionalIterator, class T, class Distance>
+inline void __inplace_merge_aux(BidirectionalIterator first,
+                                BidirectionalIterator middle,
+                                BidirectionalIterator last,
+                                T*, Distance*) {
+    Distance len1 = 0;
+    distance(first, middle, len1);
+    Distance len2 = 0;
+    distance(middle, last, len2);
+
+    temporary_buffer<BidirectionalIterator, T> buf(first, last);
+    if (buf.begin() == 0)
+        __merge_without_buffer(first, middle, last, len1, len2);
+    else
+        __merge_adaptive(first, middle, last, len1, len2,
+                         buf.begin(), Distance(buf.size()));
+}
+
+template<class BidirectionalIterator, class Distance, class Pointer>
+void __merge_adaptive(BidirectionalIterator first,
+                      BidirectionalIterator middle,
+                      BidirectionalIterator last,
+                      Distance len1, Distance len2,
+                      Pointer buffer, Distance buffer_size) {
+    if (len1 <= len2 && len1 <= buffer_size) {
+        Pointer end_buffer = copy(first, middle, buffer);
+        merge(buffer, end_buffer, middle, last, first);
+    }
+    else if (len2 <= buffer_size) {
+        Pointer end_buffer = copy(middle, last, buffer);
+        __merge_backward(first, middle, buffer, end_buffer, last);
+    }
+    else {
+        BidirectionalIterator first_cut = first;
+        BidirectionalIterator second_cut = middle;
+        Distance len11 = 0;
+        Distance len22 = 0;
+        if (len1 > len2) {
+            len11 = len1 / 2;
+            advance(first_cut, len11);
+            second_cut = lower_bound(middle, last, *first_cut);
+            distance(middle, second_cut, len22);
+        }
+        else {
+            len22 = len2 / 2;
+            advance(second_cut, len22);
+            first_cut = upper_bound(first, middle, *second_cut);
+            distance(first, first_cut, len11);
+        }
+        BidirectionalIterator new_middle =
+            __rotate_adaptive(first_cut, middle, second_cut, len1 - len11,
+                              len22, buffer, buffer_size);
+        __merge_adaptive(first, first_cut, new_middle, len11, len22, buffer,
+                         buffer_size);
+        __merge_adaptive(new_middle, second_cut, last, len1 - len11,
+                         len2 - len22, buffer, buffer_size);
+    }
+}
+
+template<class BidirectionalIterator1, class BidirectionalIterator2,
+         class Distance>
+BidirectionalIterator1 __rotate_adaptive(BidirectionalIterator1 first,
+                                         BidirectionalIterator1 middle,
+                                         BidirectionalIterator1 last,
+                                         Distance len1, Distance len2,
+                                         BidirectionalIterator2 buffer,
+                                         Distance buffer_size) {
+    BidirectionalIterator2 buffer_end;
+    if (len1 > len2 && len2 <= buffer_size) {
+        buffer_end = copy(middle, last, buffer);
+        copy_backward(buffer, middle, last);
+        return copy(buffer, buffer_end, first);
+    }
+    else if (len1 <= buffer_size) {
+        buffer_end = copy(first, middle, buffer);
+        copy(middle, last, first);
+        return copy_backward(buffer, buffer_end, last);
+    }
+    else {
+        rotate(first, middle, last);
+        advance(first, len2);
+        return first;
+    }
+}
+
+} // namespace Sstl inplace_merge
+
 // merge
 namespace Sstl {
 

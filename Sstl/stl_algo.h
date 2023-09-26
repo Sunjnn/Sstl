@@ -1209,6 +1209,74 @@ void __unguarded_insertion_sort_aux(RandomAccessIterator first,
 
 } // namespace Sstl sort
 
+// equal_range
+namespace Sstl {
+
+template<class ForwardIterator, class T>
+inline pair<ForwardIterator, ForwardIterator>
+equal_range(ForwardIterator first, ForwardIterator last, const T&  value) {
+    return __equal_range(first, last, value, distance_type(first),
+                         iterator_category(first));
+}
+
+template<class RandomAccessIterator, class T, class Distance>
+pair<RandomAccessIterator, RandomAccessIterator>
+__equal_range(RandomAccessIterator first, RandomAccessIterator last,
+              const T& value, Distance*, random_access_iterator_tag) {
+    Distance len = last - first;
+    Distance half;
+    RandomAccessIterator middle, left, right;
+
+    while (len > 0) {
+        half = len >> 1;
+        middle = first + half;
+        if (*middle < value) {
+            first = middle + 1;
+            len = len - half - 1;
+        }
+        else if (value < *middle)
+            len = half;
+        else {
+            left = lower_bound(first, middle, value);
+            right = upper_bound(++middle, first + len, value);
+            return pair<RandomAccessIterator, RandomAccessIterator>(left, right);
+        }
+    }
+    return pair<RandomAccessIterator, RandomAccessIterator>(first, first);
+}
+
+template<class ForwardIterator, class T, class Distance>
+pair<ForwardIterator, ForwardIterator>
+__equal_range(ForwardIterator first, ForwardIterator last, const T& value,
+              Distance*, forward_iterator_tag) {
+    Distance len = 0;
+    distance(first, last, len);
+    Distance half;
+    ForwardIterator middle, left, right;
+
+    while (len > 0) {
+        half = len >> 1;
+        middle = first;
+        advance(middle, half);
+        if (*middle < value) {
+            first = middle;
+            ++first;
+            len = len - half - 1;
+        }
+        else if (value < *middle)
+            len = half;
+        else {
+            left = lower_bound(first, middle, value);
+            advance(first, len);
+            right = upper_bound(++middle, first, value);
+            return pair<ForwardIterator, ForwardIterator>(left, right);
+        }
+    }
+    return pair<ForwardIterator, ForwardIterator>(first, first);
+}
+
+} // namespace Sstl equal_range
+
 // merge
 namespace Sstl {
 

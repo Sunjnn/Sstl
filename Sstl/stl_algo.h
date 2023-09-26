@@ -1405,6 +1405,25 @@ void __nth_element(RandomAccessIterator first,
 
 } // namespace Sstl nth_element
 
+// mergesort
+namespace Sstl {
+
+template<class BidirectionalIterator>
+void mergesort(BidirectionalIterator first, BidirectionalIterator last) {
+    typename iterator_traits<BidirectionalIterator>::difference_type n =
+                                                        distance(first, last);
+    if (n == 0 || n == 1)
+        return;
+    else {
+        BidirectionalIterator mid = first + n / 2;
+        mergesort(first, mid);
+        mergesort(mid, last);
+        inplace_merge(first, mid, last);
+    }
+}
+
+} // namespace Sstl mergesort
+
 // merge
 namespace Sstl {
 

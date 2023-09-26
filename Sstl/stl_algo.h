@@ -1376,6 +1376,35 @@ BidirectionalIterator1 __rotate_adaptive(BidirectionalIterator1 first,
 
 } // namespace Sstl inplace_merge
 
+// nth_element
+namespace Sstl {
+
+template<class RandomAccessIterator>
+inline void nth_element(RandomAccessIterator first,
+                        RandomAccessIterator nth,
+                        RandomAccessIterator last) {
+    __nth_element(first, nth, last, value_type(first));
+}
+
+template<class RandomAccessIterator, class T>
+void __nth_element(RandomAccessIterator first,
+                   RandomAccessIterator nth,
+                   RandomAccessIterator last, T*) {
+    while (last - first > 3) {
+        RandomAccessIterator cut = __unguarded_partition(first, last,
+                                    T(__median(*first,
+                                               *(first + (last - first)/2),
+                                               *(last - 1))));
+        if (cut <= nth)
+            first = cut;
+        else
+            last = cut;
+    }
+    __insertion_sort(first, last);
+}
+
+} // namespace Sstl nth_element
+
 // merge
 namespace Sstl {
 

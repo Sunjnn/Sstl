@@ -1,6 +1,7 @@
 #ifndef __STL_ITERATOR_H__
 #define __STL_ITERATOR_H__
 
+#include <iostream>
 #include <cstddef>
 
 namespace Sstl {
@@ -231,5 +232,76 @@ inline insert_iterator<Container> inserter(Container& x, Iterator i) {
 }
 
 } // namespace Sstl insert iterator adapters
+
+// stream iterator adapters
+namespace Sstl {
+
+template<class T, class Distance = ptrdiff_t>
+class istream_iterator {
+    friend bool
+    operator==(const istream_iterator<T, Distance>& x,
+               const istream_iterator<T, Distance>& y);
+
+protected:
+    std::istream* stream;
+    T value;
+    bool end_marker;
+    void read() {
+        end_marker = (*stream) ? true : false;
+        if (end_marker) *stream >> value;
+        end_marker = (*stream) ? true : false;
+    }
+public:
+    typedef input_iterator_tag  iterator_category;
+    typedef T                   value_type;
+    typedef Distance            difference_type;
+    typedef const T*            pointer;
+    typedef const T&            reference;
+
+    istream_iterator() : stream(&cin), end_marker(false) {}
+    istream_iterator(std::Stream& s): stream(&s) { read(); }
+
+    reference operator*() const { return value; }
+    pointer operator->() const { return &(operator*()); }
+
+    istream_iterator<T, Distance>& operator++() {
+        read();
+        return *this;
+    }
+    istream_iterator<T, Distance> operator++(int) {
+        istream_iterator<T, Distance> tmp = *this;
+        read();
+        return tmp;
+    }
+};
+
+template<class T>
+class ostream_iterator {
+protected:
+    std::ostream* stream;
+    const char* string;
+
+public:
+    typedef output_iterator_tag iterator_category;
+    typedef void                value_type;
+    typedef void                difference_type;
+    typedef void                pointer;
+    typedef void                reference;
+
+    ostream_iterator(std::ostream& s) : stream(&s), string(0) {}
+    ostream_iterator(std::ostream& s, const char* c) : stream(&s), string(c) {}
+
+    ostream_iterator<T>& operator=(const T& value) {
+        *stream << value;
+        if (string) *stream << string;
+        return *this;
+    }
+
+    ostream_iterator<T>& operator*() { return *this; }
+    ostream_iterator<T>& operator++() { return *this; }
+    ostream_iterator<T>& operator++(int) { return *this; }
+};
+
+} // namespace Sstl stream iterator adapters
 
 #endif
